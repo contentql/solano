@@ -1,7 +1,4 @@
-import { Blog } from '@payload-types'
-
-import { BentoGridDemo } from '@/components/marketing/blog/BentoGridDemo'
-import TagDetails from '@/components/marketing/tag/TagDetails'
+import TagBlogListView from '@/components/marketing/tag'
 import { serverClient } from '@/trpc/serverClient'
 
 interface PageProps {
@@ -15,15 +12,10 @@ const page = async ({ params }: PageProps) => {
     const blogs = await serverClient.tag.getBlogs({ tagSlug: params?.tagSlug })
 
     return (
-      <div>
-        <TagDetails data={blogs?.tagData.at(0) as any} />
-
-        {blogs?.blogsData?.length !== 0 ? (
-          <BentoGridDemo blogsData={blogs?.blogsData as Blog[]} />
-        ) : (
-          <p>Tag is not present</p>
-        )}
-      </div>
+      <TagBlogListView
+        blogs={blogs?.blogsData}
+        tagDetails={blogs?.tagData?.at(0)}
+      />
     )
   } catch (error) {
     console.error('Error fetching blogs:', error)

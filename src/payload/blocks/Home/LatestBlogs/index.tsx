@@ -7,7 +7,7 @@ import 'slick-carousel/slick/slick.css'
 
 import { formatDate } from '@/utils/dateFormatter'
 
-function BlogsCarousel(latestBlogs: LatestBlogsTypes) {
+function LatestBlogs(latestBlogs: LatestBlogsTypes) {
   const readingTime = require('reading-time')
   const settings = {
     autoplay: true,
@@ -97,4 +97,4 @@ function BlogsCarousel(latestBlogs: LatestBlogsTypes) {
   )
 }
 
-export default BlogsCarousel
+export default LatestBlogs

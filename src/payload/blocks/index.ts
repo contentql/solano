@@ -1,17 +1,17 @@
-// This is just to consolidate all the existing blocks and it's respective jsx
-// Always prefer to individually import, the required block or jsx
-import Hero from './Hero'
-import { Hero_Block } from './Hero/Block'
-import LatestBlogs from './LatestBlogs'
-import { Latest_Blogs_Block } from './LatestBlogs/block'
-import PopularBlogs from './PopularBlogs'
-import { Popular_Blogs_Block } from './PopularBlogs/block'
-import Tags from './Tags'
-import { Tags_Block } from './Tags/block'
-import TagsHero from './TagsHero'
-import { Tags_Hero_Block } from './TagsHero/block'
-import TopPicks from './TopPicks'
-import { Top_Picks_Block } from './TopPicks/block'
+import { BlogHero, Blog_Hero_Block } from './Blog'
+import {
+  Hero,
+  Hero_Block,
+  LatestBlogs,
+  Latest_Blogs_Block,
+  PopularBlogs,
+  Popular_Blogs_Block,
+  Tags,
+  Tags_Block,
+  TopPicks,
+  Top_Picks_Block,
+} from './Home'
+import { TagsHero, Tags_Hero_Block } from './Tag'
 
 export const blocksJSX = {
   Hero,
@@ -20,6 +20,7 @@ export const blocksJSX = {
   LatestBlogs,
   Tags,
   TagsHero,
+  BlogHero,
 }
 
 export type SlugType = keyof typeof blocksJSX
@@ -31,4 +32,5 @@ export const blocks = [
   Latest_Blogs_Block,
   Tags_Block,
   Tags_Hero_Block,
+  Blog_Hero_Block,
 ]

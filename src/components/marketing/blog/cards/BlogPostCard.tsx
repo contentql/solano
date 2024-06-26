@@ -7,57 +7,17 @@ import { useRef, useState } from 'react'
 
 import { AnimatedTooltip } from '@/components/common/AnimatedTooltip'
 import { cn } from '@/utils/cn'
-
-const getTagColors = ({ color }: { color: String }) => {
-  switch (color) {
-    case 'blue':
-      return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
-    case 'gray':
-      return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'
-    case 'red':
-      return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300'
-    case 'green':
-      return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-    case 'yellow':
-      return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
-    case 'indigo':
-      return 'bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-300'
-    case 'purple':
-      return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300'
-    case 'pink':
-      return 'bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-300'
-    default:
-      return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
-  }
-}
+import { getTagColors } from '@/utils/getColor'
 
 const BlogPostCard = ({
   className,
-  children,
-}: {
-  className?: string
-  children?: React.ReactNode
-}) => {
-  return (
-    <div
-      className={cn(
-        'mx-auto grid max-w-7xl grid-flow-row-dense grid-cols-1 gap-8 md:auto-rows-[28rem] md:grid-cols-2 xl:grid-cols-3',
-        className,
-      )}>
-      {children}
-    </div>
-  )
-}
-
-export const BentoGridItem = ({
-  className,
   blog,
-  header,
+  blogImg,
   icon,
 }: {
   className?: string
   blog: Blog
-  header?: React.ReactNode
+  blogImg?: React.ReactNode
   icon?: React.ReactNode
 }) => {
   const { slug, title, sub_title } = blog
@@ -67,7 +27,7 @@ export const BentoGridItem = ({
         'group/bento relative row-span-1 flex cursor-pointer flex-col justify-between rounded-xl border border-slate-200  bg-transparent text-white transition duration-200 hover:shadow-md dark:border-white/[0.2]',
         className,
       )}>
-      {header}
+      {blogImg}
       <div className='p-4'>
         {icon}
         <div className='flex flex-row justify-between gap-x-3 gap-y-3 md:gap-y-0'>

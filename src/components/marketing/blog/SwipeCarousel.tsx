@@ -4,7 +4,7 @@ import { Blog } from '@payload-types'
 import { motion, useMotionValue } from 'framer-motion'
 import { useEffect, useState } from 'react'
 
-import { HomeThreeDCard } from './HeroThreeDCard'
+import BlogThreeDCard from './cards/BlogThreeDCard'
 
 const ONE_SECOND = 1000
 const AUTO_DELAY = ONE_SECOND * 10
@@ -50,7 +50,7 @@ export const SwipeCarousel = ({ blogsData }: { blogsData: Blog[] }) => {
   }
 
   return (
-    <div className='relative w-full overflow-x-hidden bg-transparent lg:-ml-28'>
+    <div className='relative w-full overflow-x-hidden bg-transparent'>
       <motion.div
         drag='x'
         dragConstraints={{
@@ -66,7 +66,19 @@ export const SwipeCarousel = ({ blogsData }: { blogsData: Blog[] }) => {
         transition={SPRING_OPTIONS}
         onDragEnd={onDragEnd}
         className='flex cursor-grab items-center active:cursor-grabbing'>
-        <Blogs imgIndex={imgIndex} blogsData={blogsData} />
+        {blogsData.map((blog, idx) => {
+          return (
+            <motion.div
+              key={idx}
+              animate={{
+                scale: imgIndex === idx ? 0.95 : 0.85,
+              }}
+              transition={SPRING_OPTIONS}
+              className='aspect-video w-full shrink-0'>
+              <BlogThreeDCard item={blog} />
+            </motion.div>
+          )
+        })}
       </motion.div>
 
       <Dots
@@ -75,32 +87,6 @@ export const SwipeCarousel = ({ blogsData }: { blogsData: Blog[] }) => {
         blogsData={blogsData}
       />
     </div>
-  )
-}
-
-const Blogs = ({
-  imgIndex,
-  blogsData,
-}: {
-  imgIndex: number
-  blogsData: Blog[]
-}) => {
-  return (
-    <>
-      {blogsData.map((imgSrc, idx) => {
-        return (
-          <motion.div
-            key={idx}
-            animate={{
-              scale: imgIndex === idx ? 0.95 : 0.85,
-            }}
-            transition={SPRING_OPTIONS}
-            className='aspect-video w-full shrink-0'>
-            <HomeThreeDCard item={imgSrc} />
-          </motion.div>
-        )
-      })}
-    </>
   )
 }
 

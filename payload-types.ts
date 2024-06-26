@@ -177,7 +177,9 @@ export interface Page {
   id: string;
   title: string;
   isHome?: boolean | null;
-  blocks?: (HeroType | PopularBlogsTypes | TopPicksTypes | LatestBlogsTypes | TagsType | TagsHeroType)[] | null;
+  blocks?:
+    | (HeroType | PopularBlogsTypes | TopPicksTypes | LatestBlogsTypes | TagsType | TagsHeroType | BlogsHeroType)[]
+    | null;
   slug?: string | null;
   path?: string | null;
   parent?: (string | null) | Page;
@@ -288,6 +290,20 @@ export interface TagsHeroType {
   id?: string | null;
   blockName?: string | null;
   blockType: 'TagsHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BlogsHeroType".
+ */
+export interface BlogsHeroType {
+  title: string;
+  description: string;
+  button?: string | null;
+  link?: string | null;
+  blogs?: (string | Blog)[] | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'BlogHero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

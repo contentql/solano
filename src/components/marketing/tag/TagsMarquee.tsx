@@ -1,10 +1,8 @@
 import { Media, Tag } from '@payload-types'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import { cn } from '@/utils/cn'
-
-// const firstRow = reviews.slice(0, reviews.length / 2)
-// const secondRow = reviews.slice(reviews.length / 2)
 
 interface TagsDetails extends Tag {
   count: number
@@ -14,36 +12,37 @@ const ReviewCard = ({ tag }: { tag: TagsDetails }) => {
   const router = useRouter()
   return (
     <figure
-      onClick={() => {
-        router.push(`/tag/${tag?.slug}`)
-      }}
+      // onClick={() => {
+      //   router.push(`/tag/${tag?.slug}`)
+      // }}
       className={cn(
         'relative w-64 cursor-pointer overflow-hidden rounded-xl border p-4',
         'border-gray-950/[.1] bg-gray-950/[.01] hover:bg-gray-950/[.05]',
         'dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15]',
-      )}
-    >
-      <div className='flex flex-row items-center justify-between'>
-        <div className='flex flex-row items-center gap-2 pb-2'>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            className='rounded-full'
-            width='32'
-            height='32'
-            alt=''
-            src={(tag?.tagImage as Media)?.url || ''}
-          />
-          <figcaption className='text-md font-medium dark:text-white'>
-            {tag?.title}
-          </figcaption>
+      )}>
+      <Link href={`/tag/${tag?.slug}`}>
+        <div className='flex flex-row items-center justify-between'>
+          <div className='flex flex-row items-center gap-2 pb-2'>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              className='rounded-full'
+              width='32'
+              height='32'
+              alt=''
+              src={(tag?.tagImage as Media)?.url || ''}
+            />
+            <figcaption className='text-md font-medium dark:text-white'>
+              {tag?.title}
+            </figcaption>
+          </div>
+          <p className='text-xs font-medium dark:text-white/40'>
+            {tag?.count} posts
+          </p>
         </div>
-        <p className='text-xs font-medium dark:text-white/40'>
-          {tag?.count} posts
-        </p>
-      </div>
-      <blockquote className='mt-2 text-sm dark:text-gray-300'>
-        {tag?.description}
-      </blockquote>
+        <blockquote className='mt-2 text-sm dark:text-gray-300'>
+          {tag?.description}
+        </blockquote>
+      </Link>
     </figure>
   )
 }
@@ -54,11 +53,8 @@ export const TagsMarquee = ({
   tagsDetails: TagsDetails[]
 }) => {
   return (
-    <div className=' relative mx-auto flex w-full flex-col items-center justify-center overflow-hidden rounded-lg pt-20 md:w-[90%]'>
+    <div className='container relative flex w-full flex-col items-center justify-center overflow-hidden rounded-lg pt-16'>
       <Marquee pauseOnHover className='[--duration:20s]'>
-        {tagsDetails?.map(tag => <ReviewCard key={tag?.slug} tag={tag} />)}
-      </Marquee>
-      <Marquee reverse pauseOnHover className='[--duration:20s]'>
         {tagsDetails?.map(tag => <ReviewCard key={tag?.slug} tag={tag} />)}
       </Marquee>
     </div>
@@ -94,8 +90,7 @@ function Marquee({
           'flex-col': vertical,
         },
         className,
-      )}
-    >
+      )}>
       {Array(repeat)
         .fill(0)
         .map((_, i) => (
@@ -106,8 +101,7 @@ function Marquee({
               'animate-marquee-vertical flex-col': vertical,
               'group-hover:[animation-play-state:paused]': pauseOnHover,
               '[animation-direction:reverse]': reverse,
-            })}
-          >
+            })}>
             {children}
           </div>
         ))}
