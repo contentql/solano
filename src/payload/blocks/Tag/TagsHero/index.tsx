@@ -1,6 +1,7 @@
 'use client'
 
 import { Media, TagsHeroType } from '@payload-types'
+import Link from 'next/link'
 
 import { AnimatedTagCard } from '@/components/marketing/tag/AnimatedTagCard'
 import { trpc } from '@/trpc/client'
@@ -27,25 +28,27 @@ const TagsHero = (tagData: TagsHeroType) => {
       </div>
       <div className='relative flex flex-wrap items-center justify-center gap-x-12 gap-y-4 py-20'>
         {tags?.map((tag, index) => (
-          <AnimatedTagCard key={index} title={tag?.title} href={tag?.slug!}>
-            <div className='flex h-[16rem] w-[14rem] basis-full flex-col items-center justify-center p-4 tracking-tight text-slate-100/50 sm:basis-1/2 '>
-              {/* eslint-disable-next-line @next/next/no-img-element  */}
-              <img
-                className='w-18 h-18 mb-16 rounded-full'
-                src={(tag?.tagImage as Media)?.url || ''}
-                alt='tag'
-                loading='lazy'
-                width={100}
-                height={100}
-              />
-              <h3 className='!m-0 max-w-xs !pb-2 text-base  font-bold text-slate-100'>
-                {tag?.title}
-              </h3>
-              <p className='pt-2'>
-                {tag?.count} {tag?.count === 1 ? 'Blog' : 'Blogs'}
-              </p>
-            </div>
-          </AnimatedTagCard>
+          <Link href={`/tag/${tag?.slug}`} key={index}>
+            <AnimatedTagCard title={tag?.title} href={tag?.slug!}>
+              <div className='flex h-[16rem] w-[14rem] basis-full flex-col items-center justify-center p-4 tracking-tight text-slate-100/50 sm:basis-1/2 '>
+                {/* eslint-disable-next-line @next/next/no-img-element  */}
+                <img
+                  className='w-18 h-18 mb-16 rounded-full'
+                  src={(tag?.tagImage as Media)?.url || ''}
+                  alt='tag'
+                  loading='lazy'
+                  width={100}
+                  height={100}
+                />
+                <h3 className='!m-0 max-w-xs !pb-2 text-base  font-bold text-slate-100'>
+                  {tag?.title}
+                </h3>
+                <p className='pt-2'>
+                  {tag?.count} {tag?.count === 1 ? 'Blog' : 'Blogs'}
+                </p>
+              </div>
+            </AnimatedTagCard>
+          </Link>
         ))}
       </div>
     </div>

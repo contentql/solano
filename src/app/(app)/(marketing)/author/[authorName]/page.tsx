@@ -13,7 +13,6 @@ interface PageProps {
 }
 
 const Author = async ({ params, searchParams }: PageProps) => {
-  console.log('params', params)
   try {
     const author = await serverClient.author.getAuthorByName({
       authorName: params?.authorName,
@@ -24,11 +23,11 @@ const Author = async ({ params, searchParams }: PageProps) => {
     const tag = searchParams?.tagSlug
       ? searchParams?.tagSlug
       : authorTags?.at(0)?.slug
+
     const blogs = await serverClient.author.getBlogsByAuthorNameAndTag({
       authorName: params?.authorName,
       tagSlug: tag!,
     })
-    console.log('blogs', blogs)
     return (
       <AuthorPostsView
         author={author as User}

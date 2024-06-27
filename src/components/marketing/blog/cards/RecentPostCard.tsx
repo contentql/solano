@@ -7,17 +7,17 @@ const RecentPostCard = ({ blog }: { blog: Blog }) => {
   const readingTime = require('reading-time')
 
   return (
-    <div className='flex flex-col space-y-4 rounded-3xl border-none bg-[#1e2846] p-4 text-white'>
+    <Link
+      href={`/blog/${blog?.slug}`}
+      className='flex flex-col space-y-4 rounded-3xl border-none bg-[#1e2846] p-4 text-white'>
       <div className='flex gap-x-4 text-gray-400'>
         <p>{readingTime(blog?.description_html)?.text}</p>
         <span>-</span>
         <p>{formatDate(blog?.createdAt)}</p>
       </div>
-      <Link
-        href={`/blog/${blog?.slug}`}
-        className='line-clamp-1 text-3xl font-bold transition-all duration-300 hover:underline'>
+      <h2 className='line-clamp-1 text-3xl font-bold transition-all duration-300 hover:underline'>
         {blog?.title}
-      </Link>
+      </h2>
       {/* eslint-disable-next-line jsx-a11y/alt-text, @next/next/no-img-element */}
       <img
         className='mx-auto h-[20rem] w-full rounded-2xl'
@@ -39,13 +39,11 @@ const RecentPostCard = ({ blog }: { blog: Blog }) => {
               src={(author?.value as User)?.imageUrl || ''}
               alt='user'
             />
-            <p className='group-hover:text-indigo-600'>
-              {(author?.value as User)?.name}
-            </p>
+            <p>{(author?.value as User)?.name}</p>
           </div>
         ))}
       </div>
-    </div>
+    </Link>
   )
 }
 

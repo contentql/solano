@@ -1,4 +1,5 @@
 import { AuthorHeroType, Media } from '@payload-types'
+import Link from 'next/link'
 
 import { AnimatedTagCard } from '@/components/marketing/tag/AnimatedTagCard'
 import { trpc } from '@/trpc/client'
@@ -23,28 +24,28 @@ const AuthorHero = (data: AuthorHeroType) => {
       </div>
       <div className='relative flex flex-wrap items-center justify-center gap-x-12 gap-y-4 py-20'>
         {authors?.map((author, index) => (
-          <AnimatedTagCard
-            key={index}
-            title={author?.name!}
-            href={author?.name!}>
-            <div className='flex h-[16rem] w-[14rem] basis-full flex-col items-center justify-center p-4 tracking-tight text-slate-100/50 sm:basis-1/2 '>
-              {/* eslint-disable-next-line @next/next/no-img-element  */}
-              <img
-                className='w-18 h-18 mb-16 rounded-full'
-                src={author?.imageUrl!}
-                alt='tag'
-                loading='lazy'
-                width={100}
-                height={100}
-              />
-              <h3 className='!m-0 max-w-xs !pb-2 text-base  font-bold text-slate-100'>
-                {author?.name}
-              </h3>
-              <p className='pt-2'>
-                {author?.totalDocs} {author?.totalDocs === 1 ? 'Blog' : 'Blogs'}
-              </p>
-            </div>
-          </AnimatedTagCard>
+          <Link href={`/author/${author?.name}`} key={index}>
+            <AnimatedTagCard title={author?.name!} href={author?.name!}>
+              <div className='flex h-[16rem] w-[14rem] basis-full flex-col items-center justify-center p-4 tracking-tight text-slate-100/50 sm:basis-1/2 '>
+                {/* eslint-disable-next-line @next/next/no-img-element  */}
+                <img
+                  className='w-18 h-18 mb-16 rounded-full'
+                  src={author?.imageUrl!}
+                  alt='tag'
+                  loading='lazy'
+                  width={100}
+                  height={100}
+                />
+                <h3 className='!m-0 max-w-xs !pb-2 text-base  font-bold text-slate-100'>
+                  {author?.name}
+                </h3>
+                <p className='pt-2'>
+                  {author?.totalDocs}{' '}
+                  {author?.totalDocs === 1 ? 'Blog' : 'Blogs'}
+                </p>
+              </div>
+            </AnimatedTagCard>
+          </Link>
         ))}
       </div>
     </div>

@@ -4,7 +4,7 @@ import AnimatedBlogCard from '../blog/cards/AnimatedBlogCard'
 import { Blog, Media } from '@payload-types'
 import { AnimatePresence, motion } from 'framer-motion'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { FaAngleRight } from 'react-icons/fa6'
 
 import { AnimatedButton } from '@/components/common/AnimatedButton'
@@ -27,13 +27,7 @@ export default function AuthorBlogs({
       : authorTags?.at(0).slug,
     index: searchParams.get('index') ? searchParams.get('index') : 0,
   })
-  useEffect(() => {
-    if (pathName === '/author/cql' && !searchParams.has('tag')) {
-      const search = new URLSearchParams(searchParams)
-      search.set('tag', authorTags?.at(0)?.slug)
-      router.push(`${pathName}?${search.toString()}`)
-    }
-  }, [authorTags, pathName, router, searchParams])
+
   return (
     <section className='container px-2 py-20 md:px-20' id='blog'>
       <div className='flex flex-col items-center justify-center  gap-y-8 pb-10 text-white'>

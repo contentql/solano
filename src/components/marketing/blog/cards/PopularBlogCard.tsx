@@ -7,12 +7,13 @@ import { formatDate } from '@/utils/dateFormatter'
 const PopularBlogCard = ({ blog, index }: { blog: Blog; index: number }) => {
   const readingTime = require('reading-time')
   return (
-    <div
+    <Link
+      href={`/blog/${blog?.slug}`}
       key={blog?.id}
       className={cn(
         'group relative flex flex-col justify-between overflow-hidden rounded-xl',
-        'bg-white [box-shadow:0_0_0_1px_rgba(0,0,0,.03),0_2px_4px_rgba(0,0,0,.05),0_12px_24px_rgba(0,0,0,.05)]',
-        'transform-gpu dark:bg-transparent dark:[border:1px_solid_rgba(255,255,255,.1)] dark:[box-shadow:0_-20px_80px_-20px_#ffffff1f_inset]',
+        'border-[1px] border-gray-600 bg-transparent shadow-md',
+        'transform-group',
         (index === 2 || index === 3) &&
           'row-span-1 md:col-span-2 lg:col-span-2 lg:row-span-2',
       )}>
@@ -55,7 +56,7 @@ const PopularBlogCard = ({ blog, index }: { blog: Blog; index: number }) => {
         </Link>
       </div>
       <div className='pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10' />
-    </div>
+    </Link>
   )
 }
 

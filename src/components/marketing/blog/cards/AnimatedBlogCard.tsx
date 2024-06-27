@@ -8,7 +8,6 @@ import { LuAlarmCheck } from 'react-icons/lu'
 
 import { cn } from '@/utils/cn'
 import { formatDate } from '@/utils/dateFormatter'
-import { getTagColors } from '@/utils/getColor'
 
 const AnimatedBlogCard = ({
   blogData,
@@ -72,7 +71,7 @@ const AnimatedBlogCard = ({
           <div className='flex flex-wrap gap-2'>
             {blogData?.tags?.map((tag, index) => (
               <p
-                className={`rounded-md  px-2 py-1 font-bold capitalize ${getTagColors({ color: (tag?.value as Tag)?.color || 'blue' })}`}
+                className={`rounded-md  bg-gray-800 px-2 py-1 font-bold capitalize`}
                 key={index}>
                 {(tag?.value as Tag)?.title}
               </p>

@@ -1,4 +1,5 @@
 import { Blog, TopPicksTypes } from '@payload-types'
+import Link from 'next/link'
 
 import AnimatedBlogCard from '@/components/marketing/blog/cards/AnimatedBlogCard'
 
@@ -13,7 +14,9 @@ const TopPicks = (TopPicks: TopPicksTypes) => {
           <div
             key={index}
             className={`${(blog?.value as Blog)?.select_blog_size === '2' ? 'col-span-2' : 'col-span-1'}`}>
-            <AnimatedBlogCard blogData={blog?.value as Blog} index={index} />
+            <Link href={`/blog/${(blog?.value as Blog)?.slug}`}>
+              <AnimatedBlogCard blogData={blog?.value as Blog} index={index} />
+            </Link>
           </div>
         ))}
       </div>
