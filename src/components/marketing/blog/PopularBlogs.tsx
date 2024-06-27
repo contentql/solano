@@ -2,7 +2,7 @@
 
 import { Blog } from '@payload-types'
 
-import { ThreeDCardDemo } from './ThreeDCard'
+import BlogThreeDCard from './cards/BlogThreeDCard'
 
 export const PopularBlogs = ({ blogsData }: { blogsData: Blog[] }) => {
   return (
@@ -14,7 +14,7 @@ export const PopularBlogs = ({ blogsData }: { blogsData: Blog[] }) => {
         <div className='mx-auto grid w-screen max-w-7xl grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-3'>
           {blogsData?.map((item, index) => (
             <div key={index}>
-              <ThreeDCardDemo item={item} />
+              <BlogThreeDCard item={item as Blog} />
             </div>
           ))}
         </div>
