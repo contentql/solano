@@ -34,6 +34,14 @@ export interface User {
   name?: string | null;
   imageUrl?: string | null;
   role?: ('admin' | 'user' | 'author') | null;
+  bio?: string | null;
+  socialMedia?:
+    | {
+        icon?: ('Facebook' | 'Instagram' | 'Whatsapp' | 'Twitter' | 'LinkedIn') | null;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
   emailVerified?: string | null;
   accounts?:
     | {
@@ -178,7 +186,16 @@ export interface Page {
   title: string;
   isHome?: boolean | null;
   blocks?:
-    | (HeroType | PopularBlogsTypes | TopPicksTypes | LatestBlogsTypes | TagsType | TagsHeroType | BlogsHeroType)[]
+    | (
+        | HeroType
+        | PopularBlogsTypes
+        | TopPicksTypes
+        | LatestBlogsTypes
+        | TagsType
+        | TagsHeroType
+        | BlogsHeroType
+        | AuthorHeroType
+      )[]
     | null;
   slug?: string | null;
   path?: string | null;
@@ -304,6 +321,18 @@ export interface BlogsHeroType {
   id?: string | null;
   blockName?: string | null;
   blockType: 'BlogHero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "AuthorHeroType".
+ */
+export interface AuthorHeroType {
+  title: string;
+  description: string;
+  image: string | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'AuthorHero';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

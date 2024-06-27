@@ -1,3 +1,4 @@
+import { AuthorHero, Author_Hero_Block } from './Author'
 import { BlogHero, Blog_Hero_Block } from './Blog'
 import {
   Hero,
@@ -21,6 +22,7 @@ export const blocksJSX = {
   Tags,
   TagsHero,
   BlogHero,
+  AuthorHero,
 }
 
 export type SlugType = keyof typeof blocksJSX
@@ -33,4 +35,5 @@ export const blocks = [
   Tags_Block,
   Tags_Hero_Block,
   Blog_Hero_Block,
+  Author_Hero_Block,
 ]

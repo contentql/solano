@@ -2,6 +2,8 @@ import configPromise from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
 
 import { getCurrentUser } from '@/lib/authjs-payload-adapter/payload'
+import Footer from '@/payload/blocks/Footer/Footer'
+import Navbar from '@/payload/blocks/Header'
 
 export const revalidate = 60000
 
@@ -19,9 +21,9 @@ export default async function Layout({
 
   return (
     <div className='flex min-h-screen flex-col'>
-      {/* Navbar */}
+      <Navbar initData={initData} />
       <div className='flex-grow'>{children}</div>
-      {/* Footer */}
+      <Footer initData={initData} />
     </div>
   )
 }

@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const Hero = (data: HeroType) => {
   return (
-    <section className='relative flex h-auto w-full flex-col items-center justify-center pt-10 lg:pt-20'>
+    <section className='relative flex h-auto w-full flex-col items-center justify-center pt-20 lg:pt-40'>
       <div className='absolute left-[50%] top-[24%] h-[20%] w-[20%] -translate-x-1/2 rounded-full bg-indigo-600 blur-[110px]'></div>
       <h1 className='w-full max-w-2xl text-center text-3xl font-bold text-white md:text-4xl lg:text-7xl'>
         {data?.headline}

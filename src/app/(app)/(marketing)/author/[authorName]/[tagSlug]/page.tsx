@@ -1,7 +1,6 @@
-import { Blog, Tag } from '@payload-types'
+import { Blog, Tag, User } from '@payload-types'
 
-import AuthorTagDetails from '@/components/marketing/author/AuthorTagDetails'
-import BlogsByTag from '@/components/marketing/author/BlogsByTag'
+import BlogsByAuthorAndTagView from '@/components/marketing/author/BlogsByAuthorAndTag'
 import { serverClient } from '@/trpc/serverClient'
 
 interface PageProps {
@@ -12,15 +11,23 @@ interface PageProps {
 }
 
 async function page({ params }: PageProps) {
-  const blogs = await serverClient.tag.getBlogs({
-    tagSlug: params?.tagSlug,
+  const tagData = await serverClient.tag.getTagBySlug({
+    slug: params?.tagSlug,
   })
 
+  const authorData = await serverClient.author.getAuthorByName({
+    authorName: params?.authorName,
+  })
+  const blogsData = await serverClient.author.getBlogsByAuthorNameAndTag({
+    authorName: params?.authorName,
+    tagSlug: params?.tagSlug,
+  })
   return (
-    <>
-      <AuthorTagDetails data={blogs?.tagData.at(0) as Tag} />
-      <BlogsByTag blogsData={blogs?.blogsData as Blog[]} />
-    </>
+    <BlogsByAuthorAndTagView
+      tagDetails={tagData as Tag}
+      authorDetails={authorData as User}
+      blogsData={blogsData?.blogs as Blog[]}
+    />
   )
 }
 

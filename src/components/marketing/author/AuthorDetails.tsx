@@ -1,3 +1,5 @@
+'use client'
+
 import { User } from '@payload-types'
 import Link from 'next/link'
 import { MdOutlineEmail } from 'react-icons/md'
