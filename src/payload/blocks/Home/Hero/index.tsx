@@ -39,7 +39,6 @@ const Hero = (data: HeroType) => {
           <div
             key={idx}
             className='flex h-auto w-auto items-center justify-center gap-4 text-sm font-bold text-white md:text-xl lg:text-2xl'>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
             <Image
               src={((tag?.value as Tag)?.tagImage as Media)?.url || ''}
               alt='brand log'

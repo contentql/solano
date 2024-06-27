@@ -1,6 +1,7 @@
 'use client'
 
 import { Blog, Media, Tag, User } from '@payload-types'
+import Image from 'next/image'
 import { useRef } from 'react'
 import { IoCalendarOutline } from 'react-icons/io5'
 import { LuAlarmCheck } from 'react-icons/lu'
@@ -26,11 +27,12 @@ const AnimatedBlogCard = ({
             ? 'md:flex-row md:justify-between'
             : 'flex-col'
         } space-y-2 p-4 text-white`}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
+          width={100}
+          height={100}
           src={(blogData?.blog_image as Media)?.url || ''}
           alt='blog'
-          className={`w-full rounded-xl ${blogData?.select_blog_size === '2' ? ' md:h-[100%] md:w-[46%]' : 'h-[60%]'}`}
+          className={`w-full rounded-xl object-cover ${blogData?.select_blog_size === '2' ? ' md:h-[100%] md:w-[46%]' : 'h-[60%]'}`}
         />
         <div className='flex flex-col justify-between gap-y-2'>
           <h1

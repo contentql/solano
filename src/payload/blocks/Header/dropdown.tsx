@@ -89,7 +89,11 @@ const ProfileDropdown = ({ user }: { user: User }) => {
               role='menu'
               aria-orientation='vertical'
               aria-labelledby='options-menu text-white'>
-              <div className='flex rounded-md px-2 py-2 text-left font-semibold text-white hover:bg-[#e779c11a]'>
+              <div
+                className='flex rounded-md px-2 py-2 text-left font-semibold text-white hover:bg-[#e779c11a]'
+                onClick={() => {
+                  setIsOpen(false)
+                }}>
                 <CgProfile size={24} />
                 <Link
                   href='/profile'
@@ -101,7 +105,11 @@ const ProfileDropdown = ({ user }: { user: User }) => {
               </div>
 
               {user?.role === 'admin' && (
-                <div className='flex rounded-md px-2 py-2 text-left font-semibold text-white hover:bg-[#e779c11a]'>
+                <div
+                  className='flex rounded-md px-2 py-2 text-left font-semibold text-white hover:bg-[#e779c11a]'
+                  onClick={() => {
+                    setIsOpen(false)
+                  }}>
                   <RiAdminLine size={24} />
                   <Link
                     href='/admin'
@@ -113,7 +121,11 @@ const ProfileDropdown = ({ user }: { user: User }) => {
                 </div>
               )}
               <hr className='mb-1 mt-1  bg-gray-500' />
-              <div className='flex rounded-md px-2 py-2 font-semibold text-white hover:bg-red-500'>
+              <div
+                className='flex rounded-md px-2 py-2 font-semibold text-white hover:bg-red-500'
+                onClick={() => {
+                  setIsOpen(false)
+                }}>
                 <GoSignOut size={24} />
                 <button
                   onClick={() => signOut()}
