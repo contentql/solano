@@ -6,7 +6,7 @@ import { Blog, Media } from '@payload-types'
 import { AnimatePresence, motion } from 'framer-motion'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FaAngleRight } from 'react-icons/fa6'
 
 import { AnimatedButton } from '@/components/common/AnimatedButton'
@@ -31,6 +31,16 @@ export default function AuthorBlogs({
       : authorTags?.at(0).slug,
     index: searchParams.get('index') ? searchParams.get('index') : 0,
   })
+
+  useEffect(() => {
+    const authorPathPattern = /^\/author\/[^/]+$/
+
+    if (authorPathPattern.test(pathName)) {
+      const search = new URLSearchParams(searchParams)
+      search.set('tag', authorTags?.at(0).slug)
+      router.push(`${pathName}?${search.toString()}`)
+    }
+  }, [authorTags, pathName, router, searchParams])
 
   return (
     <section className='container px-2 py-20 md:px-20' id='blog'>
@@ -198,30 +208,30 @@ const Blogs = ({ blogsData }: { blogsData: Blog[] }) => {
       {blogsData?.map((blog, index) =>
         isMobile ? (
           <div key={index}>
-            <Link key={index} href={`/blog/${blog?.slug}`}>
-              <BlogPostCard
-                key={index}
-                blog={blog as Blog}
-                blogImg={
-                  <DirectionAwareHover
-                    imageUrl={(blog?.blog_image as Media)?.url || ''}>
-                    <p className='text-md font-semibold'>
-                      {readingTime(blog?.description_html)?.text}
-                    </p>
-                    <p className='pt-2 text-sm font-semibold'>
-                      Date: {formatDate(blog?.createdAt)}
-                    </p>
-                  </DirectionAwareHover>
-                }
-                className='col-span-1 row-span-1'
-              />
-            </Link>
+            <BlogPostCard
+              key={index}
+              blog={blog as Blog}
+              blogImg={
+                <DirectionAwareHover
+                  imageUrl={(blog?.blog_image as Media)?.url || ''}>
+                  <p className='text-md font-semibold'>
+                    {readingTime(blog?.description_html)?.text}
+                  </p>
+                  <p className='pt-2 text-sm font-semibold'>
+                    Date: {formatDate(blog?.createdAt)}
+                  </p>
+                </DirectionAwareHover>
+              }
+              className='col-span-1 row-span-1'
+            />
           </div>
         ) : (
           <div
             key={index}
             className={`${blog?.select_blog_size === '2' ? 'col-span-2' : 'col-span-1'}`}>
-            <AnimatedBlogCard blogData={blog as Blog} index={index} />
+            <Link href={`/blog/${blog?.slug}`}>
+              <AnimatedBlogCard blogData={blog as Blog} index={index} />
+            </Link>
           </div>
         ),
       )}

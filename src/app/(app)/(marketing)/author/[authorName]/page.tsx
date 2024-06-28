@@ -8,7 +8,7 @@ interface PageProps {
     authorName: string
   }
   searchParams: {
-    tagSlug: string
+    tag: string
   }
 }
 
@@ -20,9 +20,7 @@ const Author = async ({ params, searchParams }: PageProps) => {
     const authorTags = await serverClient.author.getAllTagsByAuthorName({
       authorName: params?.authorName,
     })
-    const tag = searchParams?.tagSlug
-      ? searchParams?.tagSlug
-      : authorTags?.at(0)?.slug
+    const tag = searchParams?.tag ? searchParams?.tag : authorTags?.at(0)?.slug
 
     const blogs = await serverClient.author.getBlogsByAuthorNameAndTag({
       authorName: params?.authorName,
