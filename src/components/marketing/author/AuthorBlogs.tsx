@@ -23,7 +23,6 @@ export default function AuthorBlogs({
   authorTags: any
 }) {
   const searchParams = useSearchParams()
-  const tag = searchParams?.get('tag')
   const pathName = usePathname()
   const router = useRouter()
   const [filter, setFilter] = useState({
@@ -36,12 +35,12 @@ export default function AuthorBlogs({
   useEffect(() => {
     const authorPathPattern = /^\/author\/[^/]+$/
 
-    if (authorPathPattern.test(pathName) && !tag) {
+    if (authorPathPattern.test(pathName) && !searchParams.has('tag')) {
       const search = new URLSearchParams(searchParams)
       search.set('tag', authorTags?.at(0).slug)
       router.push(`${pathName}?${search.toString()}`)
     }
-  }, [authorTags, pathName, router, searchParams, tag])
+  }, [authorTags, pathName, router, searchParams])
 
   return (
     <section className='container px-2 py-20 md:px-20' id='blog'>
