@@ -1,8 +1,8 @@
 'use client'
 
 import { User } from '@payload-types'
-import Link from 'next/link'
-import { MdOutlineEmail } from 'react-icons/md'
+
+import { listOfIcons } from '@/utils/getSocialMediaIcon'
 
 function AuthorDetails({ author }: { author: User }) {
   return (
@@ -18,9 +18,15 @@ function AuthorDetails({ author }: { author: User }) {
       <h1 className='text-center text-4xl font-bold leading-none sm:text-5xl'>
         {author?.name}
       </h1>
-      <div className='flex items-center justify-center space-x-4 rounded-full p-2 text-gray-400 shadow-xl'>
-        <MdOutlineEmail size={24} />
-        <Link href={`mailto: ${author?.email}`}>{author?.email}</Link>
+      <div className='flex flex-wrap gap-x-4'>
+        {author?.socialMedia?.map((social, index) => (
+          <a
+            key={social?.id}
+            href={social?.url}
+            className='rounded-full p-2 text-white'>
+            {listOfIcons[social?.icon!]}
+          </a>
+        ))}
       </div>
     </div>
   )

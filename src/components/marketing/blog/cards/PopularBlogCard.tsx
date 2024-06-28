@@ -49,11 +49,9 @@ const PopularBlogCard = ({ blog, index }: { blog: Blog; index: number }) => {
         <div className='font-bold text-white'>
           {readingTime(blog?.description_html)?.text}
         </div>
-        <Link
-          href={`/blog/${blog?.slug}`}
-          className='rounded-lg p-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
+        <button className='rounded-lg p-2 text-sm font-medium text-gray-900 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:outline-none dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white'>
           View More
-        </Link>
+        </button>
       </div>
       <div className='pointer-events-none absolute inset-0 transform-gpu transition-all duration-300 group-hover:bg-black/[.03] group-hover:dark:bg-neutral-800/10' />
     </Link>
