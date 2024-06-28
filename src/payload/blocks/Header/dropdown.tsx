@@ -3,6 +3,7 @@
 import { User } from '@payload-types'
 import { AnimatePresence, motion } from 'framer-motion'
 import { signOut } from 'next-auth/react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { CgProfile } from 'react-icons/cg'
@@ -64,8 +65,7 @@ const ProfileDropdown = ({ user }: { user: User }) => {
     <div className='profile-dropdown relative inline-block text-left'>
       <div onClick={handleImageClick}>
         {user?.imageUrl && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <Image
             src={user?.imageUrl as string}
             alt='Profile'
             width={40}

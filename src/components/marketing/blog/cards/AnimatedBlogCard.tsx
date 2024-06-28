@@ -58,11 +58,12 @@ const AnimatedBlogCard = ({
             className={`hidden flex-wrap gap-x-4 ${blogData?.select_blog_size === '2' && 'md:flex'}`}>
             {blogData?.author?.map((author, index) => (
               <div key={index} className='flex items-center gap-x-2'>
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={(author?.value as User)?.imageUrl || ''}
                   alt='author'
                   className='h-8 w-8 rounded-full'
+                  width={8}
+                  height={8}
                 />
                 <p className='capitalize'>{(author?.value as User)?.name}</p>
               </div>

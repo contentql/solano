@@ -1,6 +1,7 @@
 'use client'
 
 import type { User } from '@payload-types'
+import Image from 'next/image'
 import { useState } from 'react'
 import { useFormState } from 'react-dom'
 
@@ -33,8 +34,9 @@ const ProfileForm = ({ user }: { user: User }) => {
 
         <div className='mx-auto mt-8 grid'>
           <div className='flex flex-col items-center space-y-5 sm:flex-row sm:space-y-0'>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
+              width={50}
+              height={50}
               className='h-40 w-40 rounded-full object-cover p-1 ring-2 ring-indigo-300 dark:ring-indigo-500'
               src='https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGZhY2V8ZW58MHx8MHx8fDA%3D&auto=format&fit=crop&w=500&q=60'
               alt='Bordered avatar'
@@ -43,14 +45,12 @@ const ProfileForm = ({ user }: { user: User }) => {
             <div className='flex flex-col space-y-5 sm:ml-8'>
               <button
                 type='button'
-                className='rounded-lg border border-indigo-200 bg-[#202142] px-7 py-3.5 text-base font-medium text-indigo-100 hover:bg-indigo-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-indigo-200 '
-              >
+                className='rounded-lg border border-indigo-200 bg-[#202142] px-7 py-3.5 text-base font-medium text-indigo-100 hover:bg-indigo-900 focus:z-10 focus:outline-none focus:ring-4 focus:ring-indigo-200 '>
                 Change picture
               </button>
               <button
                 type='button'
-                className='rounded-lg border border-indigo-200 bg-white px-7 py-3.5 text-base font-medium text-indigo-900 hover:bg-indigo-100 hover:text-[#202142] focus:z-10 focus:outline-none focus:ring-4 focus:ring-indigo-200 '
-              >
+                className='rounded-lg border border-indigo-200 bg-white px-7 py-3.5 text-base font-medium text-indigo-900 hover:bg-indigo-100 hover:text-[#202142] focus:z-10 focus:outline-none focus:ring-4 focus:ring-indigo-200 '>
                 Delete picture
               </button>
             </div>
@@ -58,13 +58,11 @@ const ProfileForm = ({ user }: { user: User }) => {
 
           <form
             action={updateUserAction}
-            className='mt-8 items-center text-[#202142] sm:mt-14'
-          >
+            className='mt-8 items-center text-[#202142] sm:mt-14'>
             <div className='mb-4 sm:mb-6'>
               <label
                 htmlFor='name'
-                className='block text-sm font-medium text-gray-700'
-              >
+                className='block text-sm font-medium text-gray-700'>
                 Name
               </label>
               <input
@@ -81,8 +79,7 @@ const ProfileForm = ({ user }: { user: User }) => {
             <div className='mb-4 sm:mb-6'>
               <label
                 htmlFor='email'
-                className='block text-sm font-medium text-gray-700'
-              >
+                className='block text-sm font-medium text-gray-700'>
                 E-Mail
               </label>
               <input
@@ -100,8 +97,7 @@ const ProfileForm = ({ user }: { user: User }) => {
               <div className='w-full'>
                 <label
                   htmlFor='password'
-                  className='block text-sm font-medium text-gray-700'
-                >
+                  className='block text-sm font-medium text-gray-700'>
                   New Password
                 </label>
                 <input
@@ -117,8 +113,7 @@ const ProfileForm = ({ user }: { user: User }) => {
               <div className='w-full'>
                 <label
                   htmlFor='confirmPassword'
-                  className='block text-sm font-medium text-gray-700'
-                >
+                  className='block text-sm font-medium text-gray-700'>
                   Confirm Password
                 </label>
                 <input
@@ -135,8 +130,7 @@ const ProfileForm = ({ user }: { user: User }) => {
             <div className='flex justify-end'>
               <button
                 type='submit'
-                className='w-full rounded-lg  bg-indigo-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800 sm:w-auto'
-              >
+                className='w-full rounded-lg  bg-indigo-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800 sm:w-auto'>
                 {isPending ? 'Updating...' : 'Update Profile'}
               </button>
             </div>

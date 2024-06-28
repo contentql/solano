@@ -4,6 +4,7 @@ import { env } from '@env'
 import { Blog, Media, Tag } from '@payload-types'
 import { useLivePreview } from '@payloadcms/live-preview-react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 import { twMerge } from 'tailwind-merge'
 
 import { AnimatedTooltip } from '@/components/common/AnimatedTooltip'
@@ -84,8 +85,7 @@ export function BlogPost({ slug, data }: { slug: string; data: Blog }) {
               </h2>
 
               {dataToUse?.blog_image && (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={(dataToUse?.blog_image as Media)?.url || ''}
                   alt={(dataToUse?.blog_image as Media)?.alt || ''}
                   height='1000'

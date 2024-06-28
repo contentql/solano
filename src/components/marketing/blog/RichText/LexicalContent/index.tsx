@@ -2,6 +2,7 @@
 
 /* eslint-disable react/no-children-prop */
 import clsx from 'clsx'
+import Image from 'next/image'
 import Link from 'next/link'
 import React, {
   CSSProperties,
@@ -143,8 +144,7 @@ export const ImageModal = ({ isOpen, onClose, imageUrl }: any) => {
           onClick={onClose}>
           &times;
         </button>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           src={imageUrl}
           alt='Modal'
           width={1000}
@@ -252,8 +252,7 @@ const LexicalContent: React.FC<{
         )
         return (
           <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               key={ix}
               width={1000}
               height={1000}

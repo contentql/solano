@@ -1,4 +1,5 @@
 import { Media, Tag, User } from '@payload-types'
+import Image from 'next/image'
 
 import { listOfIcons } from '@/utils/getSocialMediaIcon'
 
@@ -14,8 +15,8 @@ function AuthorTagDetails({
       <div className='relative flex flex-col items-center justify-center space-y-4'>
         <div className='relative flex h-24 w-full cursor-pointer items-center justify-center'>
           {/* Tag image */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+
+          <Image
             alt=''
             height={96}
             width={96}
@@ -24,8 +25,7 @@ function AuthorTagDetails({
             style={{ marginRight: '-12px' }}
           />
           {/* Author image */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
+          <Image
             alt=''
             height={96}
             width={96}

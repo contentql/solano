@@ -1,6 +1,7 @@
 'use client'
 
 import { Media, Tag, TagsType } from '@payload-types'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { AnimatedTagCard } from '@/components/marketing/tag/AnimatedTagCard'
@@ -24,8 +25,7 @@ export default function Tags(tags: TagsType) {
                 title={(tag?.value as Tag)?.title}
                 href={(tag?.value as Tag)?.slug!}>
                 <div className='flex h-[16rem] w-[14rem] basis-full flex-col items-center justify-center p-4 tracking-tight text-slate-100/50 sm:basis-1/2 '>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
+                  <Image
                     className='w-18 h-18 mb-16 rounded-full'
                     src={((tag?.value as Tag)?.tagImage as Media)?.url || ''}
                     alt='tag'

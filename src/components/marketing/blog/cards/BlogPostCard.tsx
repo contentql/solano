@@ -2,6 +2,7 @@
 
 import { Blog, Tag } from '@payload-types'
 import { AnimatePresence, motion } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRef, useState } from 'react'
 
@@ -151,15 +152,14 @@ export const DirectionAwareHover = ({
               duration: 0.2,
               ease: 'easeOut',
             }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               alt='image'
               className={cn(
                 'h-full w-full scale-[1.15] object-cover',
                 imageClassName,
               )}
-              width={10000}
-              height={10000}
+              width={100}
+              height={100}
               src={imageUrl}
             />
           </motion.div>

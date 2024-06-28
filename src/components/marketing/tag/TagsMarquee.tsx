@@ -1,4 +1,5 @@
 import { Media, Tag } from '@payload-types'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
@@ -23,8 +24,7 @@ const ReviewCard = ({ tag }: { tag: TagsDetails }) => {
       <Link href={`/tag/${tag?.slug}`}>
         <div className='flex flex-row items-center justify-between'>
           <div className='flex flex-row items-center gap-2 pb-2'>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               className='rounded-full'
               width='32'
               height='32'

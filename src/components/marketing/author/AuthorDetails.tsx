@@ -1,14 +1,14 @@
 'use client'
 
 import { User } from '@payload-types'
+import Image from 'next/image'
 
 import { listOfIcons } from '@/utils/getSocialMediaIcon'
 
 function AuthorDetails({ author }: { author: User }) {
   return (
     <div className=' flex flex-col items-center justify-center space-y-4 bg-[#26304e] pb-14 pt-40 text-white'>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
         alt=''
         height={96}
         width={96}

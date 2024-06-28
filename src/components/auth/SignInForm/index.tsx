@@ -1,6 +1,7 @@
 'use client'
 
 import { zodResolver } from '@hookform/resolvers/zod'
+import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { type ComponentProps, useEffect, useState, useTransition } from 'react'
@@ -78,8 +79,8 @@ const SignInForm = () => {
   return (
     <div className='flex min-h-screen'>
       <div className='hidden flex-1 items-center justify-center bg-transparent text-black lg:flex'>
-        {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
-        <img
+        <Image
+          alt='img'
           src='/images/login-page-illustration.svg'
           width={50}
           height={50}

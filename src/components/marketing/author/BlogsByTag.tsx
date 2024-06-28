@@ -1,4 +1,5 @@
 import { Blog, Media, Tag } from '@payload-types'
+import Image from 'next/image'
 
 import { getTagColors } from '@/utils/getColor'
 
@@ -17,8 +18,9 @@ export default BlogsByTag
 const BlogCard = ({ blog }: { blog: Blog }) => {
   return (
     <div className='flex flex-col items-start justify-start gap-y-4 text-white md:flex-row md:gap-x-10'>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
+      <Image
+        width={100}
+        height={100}
         src={(blog?.blog_image as Media)?.url || ''}
         alt='blog'
         className='h-full w-full rounded-lg object-cover md:h-40 md:w-40 md:rounded-full'
@@ -34,8 +36,7 @@ const BlogCard = ({ blog }: { blog: Blog }) => {
           {blog?.tags?.map((tag, index) => (
             <div
               className={`rounded-lg  px-2 py-1 text-sm font-semibold uppercase ${getTagColors({ color: (tag?.value as Tag)?.color || 'blue' })}`}
-              key={index}
-            >
+              key={index}>
               {(tag?.value as Tag)?.title}
             </div>
           ))}

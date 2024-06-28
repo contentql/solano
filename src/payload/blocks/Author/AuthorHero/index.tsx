@@ -1,4 +1,5 @@
 import { AuthorHeroType, Media } from '@payload-types'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { AnimatedTagCard } from '@/components/marketing/tag/AnimatedTagCard'
@@ -9,8 +10,7 @@ const AuthorHero = (data: AuthorHeroType) => {
   return (
     <div className='text-white'>
       <div className='mx-auto flex flex-col items-center justify-center space-y-4 bg-[#26304e] pb-14 pt-40'>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+        <Image
           alt=''
           height={96}
           width={96}
@@ -27,8 +27,7 @@ const AuthorHero = (data: AuthorHeroType) => {
           <Link href={`/author/${author?.name}`} key={index}>
             <AnimatedTagCard title={author?.name!} href={author?.name!}>
               <div className='flex h-[16rem] w-[14rem] basis-full flex-col items-center justify-center p-4 tracking-tight text-slate-100/50 sm:basis-1/2 '>
-                {/* eslint-disable-next-line @next/next/no-img-element  */}
-                <img
+                <Image
                   className='w-18 h-18 mb-16 rounded-full'
                   src={author?.imageUrl!}
                   alt='tag'

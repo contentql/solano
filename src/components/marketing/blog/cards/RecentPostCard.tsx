@@ -1,4 +1,5 @@
 import { Blog, Media, User } from '@payload-types'
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { formatDate } from '@/utils/dateFormatter'
@@ -18,8 +19,7 @@ const RecentPostCard = ({ blog }: { blog: Blog }) => {
       <h2 className='line-clamp-1 text-3xl font-bold transition-all duration-300 hover:underline'>
         {blog?.title}
       </h2>
-      {/* eslint-disable-next-line jsx-a11y/alt-text, @next/next/no-img-element */}
-      <img
+      <Image
         className='mx-auto h-[20rem] w-full rounded-2xl'
         src={(blog?.blog_image as Media)?.url || ''}
         width={400}
@@ -33,11 +33,12 @@ const RecentPostCard = ({ blog }: { blog: Blog }) => {
       <div className='flex flex-wrap space-x-5 '>
         {blog?.author?.map((author, index) => (
           <div className='group flex items-center space-x-2' key={index}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               className='h-5 w-5 rounded-full'
               src={(author?.value as User)?.imageUrl || ''}
               alt='user'
+              width={50}
+              height={50}
             />
             <p>{(author?.value as User)?.name}</p>
           </div>

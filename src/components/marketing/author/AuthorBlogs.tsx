@@ -4,6 +4,7 @@ import AnimatedBlogCard from '../blog/cards/AnimatedBlogCard'
 import BlogPostCard, { DirectionAwareHover } from '../blog/cards/BlogPostCard'
 import { Blog, Media } from '@payload-types'
 import { AnimatePresence, motion } from 'framer-motion'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -46,11 +47,12 @@ export default function AuthorBlogs({
     <section className='container px-2 py-20 md:px-20' id='blog'>
       <div className='flex flex-col items-center justify-center  gap-y-8 pb-10 text-white'>
         <div className='flex flex-row items-center gap-x-4'>
-          {/* eslint-disable-next-line @next/next/no-img-element, jsx-a11y/alt-text */}
-          <img
+          <Image
             src={(authorTags?.at(filter?.index).image as Media)?.url || ''}
             alt='tag'
             className='h-20 w-20 rounded-full'
+            width={50}
+            height={50}
           />
           <div className='gap-x-2'>
             <p className='text-2xl font-bold'>
@@ -159,8 +161,9 @@ const Tags = ({
                 handleSearchByTitle(tag?.slug, index)
               }}
               className='relative inline-flex cursor-pointer items-center gap-x-4 rounded-full px-4 py-2'>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
+              <Image
+                width={20}
+                height={20}
                 src={(tag?.image as Media)?.url || ''}
                 alt='tag'
                 className='h-8 w-8 rounded-full'
