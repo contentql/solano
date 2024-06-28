@@ -1,13 +1,17 @@
 'use client'
 
 import AnimatedBlogCard from '../blog/cards/AnimatedBlogCard'
+import BlogPostCard, { DirectionAwareHover } from '../blog/cards/BlogPostCard'
 import { Blog, Media } from '@payload-types'
 import { AnimatePresence, motion } from 'framer-motion'
+import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { useState } from 'react'
 import { FaAngleRight } from 'react-icons/fa6'
 
 import { AnimatedButton } from '@/components/common/AnimatedButton'
+import { useResponsive } from '@/hooks/useResponsive'
+import { formatDate } from '@/utils/dateFormatter'
 
 export default function AuthorBlogs({
   blogsData,
@@ -187,15 +191,40 @@ const Tags = ({
 }
 
 const Blogs = ({ blogsData }: { blogsData: Blog[] }) => {
+  const { isMobile } = useResponsive()
+  const readingTime = require('reading-time')
   return (
     <div className='container grid w-full grid-cols-1 gap-y-8 md:grid-cols-2 md:gap-8 lg:w-9/12'>
-      {blogsData?.map((blog, index) => (
-        <div
-          key={index}
-          className={`${blog?.select_blog_size === '2' ? 'col-span-2' : 'col-span-1'}`}>
-          <AnimatedBlogCard blogData={blog as Blog} index={index} />
-        </div>
-      ))}
+      {blogsData?.map((blog, index) =>
+        isMobile ? (
+          <div key={index}>
+            <Link key={index} href={`/blog/${blog?.slug}`}>
+              <BlogPostCard
+                key={index}
+                blog={blog as Blog}
+                blogImg={
+                  <DirectionAwareHover
+                    imageUrl={(blog?.blog_image as Media)?.url || ''}>
+                    <p className='text-md font-semibold'>
+                      {readingTime(blog?.description_html)?.text}
+                    </p>
+                    <p className='pt-2 text-sm font-semibold'>
+                      Date: {formatDate(blog?.createdAt)}
+                    </p>
+                  </DirectionAwareHover>
+                }
+                className='col-span-1 row-span-1'
+              />
+            </Link>
+          </div>
+        ) : (
+          <div
+            key={index}
+            className={`${blog?.select_blog_size === '2' ? 'col-span-2' : 'col-span-1'}`}>
+            <AnimatedBlogCard blogData={blog as Blog} index={index} />
+          </div>
+        ),
+      )}
     </div>
   )
 }
