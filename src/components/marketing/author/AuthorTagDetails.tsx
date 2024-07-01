@@ -20,7 +20,7 @@ function AuthorTagDetails({
             alt=''
             height={96}
             width={96}
-            className='z-10 h-24 w-24 rounded-full  bg-cover bg-center transition-all duration-300 hover:z-30'
+            className='z-10 h-24 w-24 rounded-full  bg-cover bg-center  transition-all duration-500 hover:z-30'
             src={(tagDetails?.tagImage as Media)?.url as string}
             style={{ marginRight: '-12px' }}
           />
