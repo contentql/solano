@@ -11,11 +11,9 @@ initial setup to final deployment.
 
 1. [Setting Up the Project](#setting-up-the-project)
 2. [Creating Required Blocks](#creating-required-blocks)
-3. [Creating Pages Using Existing Blogs](#creating pages)
+3. [Creating Pages Using Existing Blogs](#creating-pages-using-existing-blogs)
 
 ## Setting Up the Project
-
-### Step 1: Initialize the Project
 
 To start the theme development, you need to create a new project using the
 `create-cql-app` command. This command sets up the basic structure and
@@ -29,19 +27,22 @@ npx create-cql-app@latest fileName.
 
 Note: Ensure to replace fileName with the desired name for your project. This
 name is required while running the installation command to avoid errors.
-Creating Required Blocks
 
-Step 1: Navigate to the Blocks Directory Navigate to the src/payload/blocks
-directory in your project. This directory already exists and is where you will
-create all the necessary blocks for your theme. Blocks are reusable components
-that can be used throughout your theme to maintain consistency and modularity.
 
-Step 2: Create Individual Blocks For each block you need, create a new folder
-within the src/payload/blocks directory. Each folder should consist of two
-files: block.ts and index.tsx.
+## Creating Required Blocks
 
-In block.ts, define the fields you want for your block. In index.tsx, write the
-actual frontend code for rendering the block.
+### Step 1: Navigate to the Blocks Directory
+First, go to the src/payload/blocks directory within your project. This directory already exists and is designated for creating the various blocks you'll need for your theme. Blocks are reusable components designed to ensure consistency and modularity throughout your theme.
+
+### Step 2: Create Individual Blocks
+
+For each block you require, follow these steps:
+
+1. **Create a New Folder**: Within the `src/payload/blocks` directory, create a new folder.
+2. **Add Required Files**: Inside this new folder, create two files: `block.ts` and `index.tsx`.
+
+   - **block.ts**: Define the fields for your block here. Ensure the slug name matches the folder name.
+   - **index.tsx**: Implement the frontend code to render the block in this file.
 
 Note: The slug name in block.ts should be the same as the folder name.
 
@@ -176,7 +177,21 @@ const Hero = (data: HeroType) => {
 export default Hero
 ```
 
-Creating Pages Using Existing Blocks Step 1: Navigate to the Pages Collection in
+### Step 3: Import the Files into `index.ts`
+
+After creating your blocks, import them into the `index.ts` file (which already exists) to make them available throughout your project. This step ensures that all your blocks are registered and can be utilized as needed.
+
+### Step 4: Generate Types
+
+To generate the necessary types for your project, run the following command:
+
+```sh
+pnpm generate:types
+```
+
+## Creating Pages Using Existing Blocks
+
+Step 1: Navigate to the Pages Collection in
 Admin Panel Navigate to the Pages collection in the Admin panel. This is where
 you will create the pages using the blocks you have previously defined.
 
