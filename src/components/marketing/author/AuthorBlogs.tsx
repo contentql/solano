@@ -207,7 +207,7 @@ const Blogs = ({ blogsData }: { blogsData: Blog[] }) => {
   const { isMobile } = useResponsive()
   const readingTime = require('reading-time')
   return (
-    <div className='container grid w-full grid-cols-1 gap-y-8 md:grid-cols-2 md:gap-8 lg:w-9/12'>
+    <div className='container grid w-full grid-flow-row-dense grid-cols-1 gap-y-8 md:grid-cols-2 md:gap-8 lg:w-9/12'>
       {blogsData?.map((blog, index) =>
         isMobile ? (
           <div key={index}>
