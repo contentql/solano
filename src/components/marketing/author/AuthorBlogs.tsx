@@ -142,7 +142,7 @@ const Tags = ({
   }
   return (
     <section className='text-md sticky top-24 w-full text-gray-900 dark:text-white'>
-      <div className='grid-col-1 grid gap-y-1 md:grid-cols-2 lg:grid-cols-1'>
+      <div className='grid-col-1 grid md:grid-cols-2 lg:grid-cols-1'>
         {tags?.map((tag: any, index: number) => (
           <div key={index}>
             <div
