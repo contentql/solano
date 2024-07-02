@@ -16,8 +16,6 @@ import {
 } from '@/payload/collections/constants'
 import parseCookieString from '@/utils/parseCookieString'
 
-import { authorAccessAfterUpdate } from './hooks/authorAccessAfterUpdate'
-
 export const Users: CollectionConfig = {
   slug: COLLECTION_SLUG_USER,
   admin: {
@@ -115,7 +113,6 @@ export const Users: CollectionConfig = {
     //   },
     // ],
     beforeChange: [
-      authorAccessAfterUpdate,
       async ({ data, req, operation, originalDoc }) => {
         if (operation === 'create') {
           const { payload, context } = req
