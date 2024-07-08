@@ -17,7 +17,14 @@ const SPRING_OPTIONS = {
   damping: 50,
 }
 
-export const SwipeCarousel = ({ blogsData }: { blogsData: Blog[] }) => {
+export const SwipeCarousel = ({
+  blogsData,
+}: {
+  blogsData: {
+    relationTo: 'blogs'
+    value: string | Blog
+  }[]
+}) => {
   const [imgIndex, setImgIndex] = useState(0)
 
   const dragX = useMotionValue(0)
@@ -75,7 +82,7 @@ export const SwipeCarousel = ({ blogsData }: { blogsData: Blog[] }) => {
               }}
               transition={SPRING_OPTIONS}
               className='aspect-video w-full shrink-0'>
-              <BlogThreeDCard item={blog} />
+              <BlogThreeDCard item={blog?.value as Blog} />
             </motion.div>
           )
         })}
@@ -84,7 +91,12 @@ export const SwipeCarousel = ({ blogsData }: { blogsData: Blog[] }) => {
       <Dots
         imgIndex={imgIndex}
         setImgIndex={setImgIndex}
-        blogsData={blogsData}
+        blogsData={
+          blogsData as {
+            relationTo: 'blogs'
+            value: string | Blog
+          }[]
+        }
       />
     </div>
   )
@@ -97,7 +109,10 @@ const Dots = ({
 }: {
   imgIndex: number
   setImgIndex: Function
-  blogsData: Blog[]
+  blogsData: {
+    relationTo: 'blogs'
+    value: string | Blog
+  }[]
 }) => {
   return (
     <div className='mt-4 flex w-full justify-center gap-2'>

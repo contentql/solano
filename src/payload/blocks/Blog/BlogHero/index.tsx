@@ -39,7 +39,14 @@ function BlogHero(blogData: BlogsHeroType) {
             </div>
           </div>
           <div className='hidden w-full lg:block lg:w-[50%]'>
-            <SwipeCarousel blogsData={blogData?.blogs as Blog[]} />
+            <SwipeCarousel
+              blogsData={
+                blogData?.blogs as {
+                  relationTo: 'blogs'
+                  value: string | Blog
+                }[]
+              }
+            />
           </div>
         </section>
         <TagsMarquee tagsDetails={tags as TagsDetails[]} />

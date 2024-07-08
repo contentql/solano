@@ -115,7 +115,7 @@ const CardAnimation = ({
     '--r-y': '0deg',
     '--bg-x': '50%',
     '--bg-y': '50%',
-    '--duration': '300ms',
+    '--duration': '500ms',
     '--foil-size': '100%',
     '--opacity': '0',
     '--radius': '10px',
@@ -125,7 +125,6 @@ const CardAnimation = ({
 
   const updateStyles = () => {
     if (refElement.current) {
-      console.log(state.current)
       const { background, rotate, glare } = state.current
       refElement.current?.style.setProperty('--m-x', `${glare.x}%`)
       refElement.current?.style.setProperty('--m-y', `${glare.y}%`)
@@ -137,9 +136,6 @@ const CardAnimation = ({
   }
   return (
     <div
-      onClick={() => {
-        console.log('clicked')
-      }}
       style={{ ...containerStyle, height: '400px', width: '100%' }}
       className='duration-[var(--duration)] ease-[var(--easing)] delay-[var(--delay)] relative isolate h-[400px] w-full cursor-pointer transition-transform will-change-transform [aspect-ratio:17/21] [contain:layout_style] [perspective:600px]'
       ref={refElement}

@@ -37,7 +37,7 @@ export const Blog_Hero_Block: Block = {
     {
       name: 'blogs',
       type: 'relationship',
-      relationTo: 'blogs',
+      relationTo: ['blogs'],
       hasMany: true,
     },
   ],
