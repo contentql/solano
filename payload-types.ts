@@ -317,7 +317,12 @@ export interface BlogsHeroType {
   description: string;
   button?: string | null;
   link?: string | null;
-  blogs?: (string | Blog)[] | null;
+  blogs?:
+    | {
+        relationTo: 'blogs';
+        value: string | Blog;
+      }[]
+    | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'BlogHero';
