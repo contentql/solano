@@ -1,5 +1,6 @@
 import configPromise from '@payload-config'
 import { getPayloadHMR } from '@payloadcms/next/utilities'
+import { headers } from 'next/headers'
 
 import Footer from '@/payload/blocks/Footer/Footer'
 import Navbar from '@/payload/blocks/Header'
@@ -17,7 +18,8 @@ export default async function Layout({
     slug: 'site-settings',
     draft: false,
   })
-  const user = await getCurrentUser()
+  const headersList = headers()
+  const user = await getCurrentUser(headersList)
 
   return (
     <div className='flex min-h-screen flex-col'>

@@ -4,7 +4,6 @@ import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
 import { router, userProcedure } from '@/trpc'
-import { getCurrentUser } from '@/utils/getCurrentUser'
 
 const payload = await getPayloadHMR({ config: configPromise })
 
@@ -12,16 +11,7 @@ export const userRouter = router({
   getUser: userProcedure.query(async ({ ctx }) => {
     const { user } = ctx
 
-    console.log(user, 'from trpc')
-
-    try {
-      const userData = await getCurrentUser()
-
-      return userData
-    } catch (error) {
-      console.log('Error during', error)
-      return null
-    }
+    return user
   }),
 
   updateProfileImage: userProcedure
