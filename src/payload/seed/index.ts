@@ -1,5 +1,11 @@
-import type { GeneratedTypes, Payload, RequestContext } from 'payload'
-import { PayloadRequestWithData } from 'payload/types'
+import type {
+  GeneratedTypes,
+  Payload,
+  PayloadRequest,
+  RequestContext,
+} from 'payload'
+
+// import { PayloadRequestWithData } from 'payload/types'
 
 export declare type MarkOptional<T, K extends keyof T> = Omit<T, K> &
   Partial<Pick<T, K>>
@@ -20,7 +26,7 @@ type CollectionCreateOptions = {
   locale?: GeneratedTypes['locale']
   overrideAccess?: boolean
   overwriteExistingFiles?: boolean
-  req?: PayloadRequestWithData
+  req?: PayloadRequest
   showHiddenFields?: boolean
   user?: Document
 }
@@ -32,7 +38,7 @@ type GlobalUpdateOptions = {
   fallbackLocale?: GeneratedTypes['locale']
   locale?: GeneratedTypes['locale']
   overrideAccess?: boolean
-  req?: PayloadRequestWithData
+  req?: PayloadRequest
   showHiddenFields?: boolean
   user?: Document
 }

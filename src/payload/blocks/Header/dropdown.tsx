@@ -2,7 +2,7 @@
 
 import { User } from '@payload-types'
 import { AnimatePresence, motion } from 'framer-motion'
-import { signOut } from 'next-auth/react'
+// import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
@@ -128,7 +128,7 @@ const ProfileDropdown = ({ user }: { user: User }) => {
                 }}>
                 <GoSignOut size={24} />
                 <button
-                  onClick={() => signOut()}
+                  // onClick={() => signOut()}
                   className='text-md block w-full rounded-sm px-2 text-left '
                   role='menuitem'>
                   sign-out
