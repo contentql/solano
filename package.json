@@ -16,7 +16,6 @@
     "format:fix": "prettier . --write"
   },
   "dependencies": {
-    "@auth/core": "^0.31.0",
     "@fontsource-variable/inter": "^5.0.18",
     "@hookform/resolvers": "^3.4.0",
     "@payloadcms/db-mongodb": "beta",
@@ -46,7 +45,6 @@
     "framer-motion": "12.0.0-alpha.0",
     "graphql": "^16.8.2",
     "next": "15.0.0-canary.35",
-    "next-auth": "5.0.0-beta.18",
     "nprogress": "^0.2.0",
     "path-to-regexp": "^6.2.2",
     "payload": "beta",
