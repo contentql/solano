@@ -1,4 +1,4 @@
-import { Block } from 'payload/types'
+import { Block } from 'payload'
 
 export const Tags_Hero_Block: Block = {
   slug: 'TagsHero',

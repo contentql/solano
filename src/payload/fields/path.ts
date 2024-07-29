@@ -1,7 +1,7 @@
 import { getParents } from '@payloadcms/plugin-nested-docs'
 import deepmerge from 'deepmerge'
-import { APIError } from 'payload/errors'
-import type { Field, Payload } from 'payload/types'
+import type { Field, Payload } from 'payload'
+import { APIError } from 'payload'
 
 import { COLLECTION_SLUG_PAGE } from '@/payload/collections/constants'
 import generateBreadcrumbsUrl from '@/utils/generateBreadcrumbsUrl'

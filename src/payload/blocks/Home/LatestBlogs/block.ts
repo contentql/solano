@@ -1,4 +1,4 @@
-import { Block } from 'payload/types'
+import { Block } from 'payload'
 
 export const Latest_Blogs_Block: Block = {
   slug: 'LatestBlogs',

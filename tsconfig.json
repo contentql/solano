@@ -34,7 +34,6 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "src/lib/authjs-payload-adapter/types/next-auth.d.ts"
   ],
   "exclude": ["node_modules"]
 }

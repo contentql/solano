@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload/types'
+import type { CollectionConfig } from 'payload'
 
 import { COLLECTION_SLUG_PAGE } from '@/payload/collections/constants'
 import { pathField, slugField } from '@/payload/fields'

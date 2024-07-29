@@ -1,4 +1,4 @@
-import { FieldHook } from 'payload/types'
+import { FieldHook } from 'payload'
 
 export const assignUserId: FieldHook = async ({ req, operation, data }) => {
   const { user } = req

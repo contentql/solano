@@ -1,5 +1,5 @@
 import ProfileView from '@/components/marketing/profile'
-import { getCurrentUser } from '@/lib/authjs-payload-adapter/payload'
+import { getCurrentUser } from '@/utils/getCurrentUser'
 import { redirect } from 'next/navigation'
 const ProfilePage = async () => {
   const user = await getCurrentUser()

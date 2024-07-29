@@ -3,14 +3,16 @@ import { getPayloadHMR } from '@payloadcms/next/utilities'
 import { TRPCError } from '@trpc/server'
 import { z } from 'zod'
 
-import { getCurrentUser } from '@/lib/authjs-payload-adapter/payload'
 import { router, userProcedure } from '@/trpc'
+import { getCurrentUser } from '@/utils/getCurrentUser'
 
 const payload = await getPayloadHMR({ config: configPromise })
 
 export const userRouter = router({
   getUser: userProcedure.query(async ({ ctx }) => {
     const { user } = ctx
+
+    console.log(user, 'from trpc')
 
     try {
       const userData = await getCurrentUser()
