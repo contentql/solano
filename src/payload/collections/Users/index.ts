@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { isAdmin, isAdminOrCurrentUser } from '@/payload/access'
+
 import { authorAccessAfterUpdate } from './hooks/authorAccessAfterUpdate'
 
 export const Users: CollectionConfig = {
