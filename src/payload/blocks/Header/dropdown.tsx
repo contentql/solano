@@ -2,17 +2,20 @@
 
 import { User } from '@payload-types'
 import { AnimatePresence, motion } from 'framer-motion'
-// import { signOut } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 import { CgProfile } from 'react-icons/cg'
 import { GoSignOut } from 'react-icons/go'
 import { RiAdminLine } from 'react-icons/ri'
 
+import { signOut } from '@/utils/signOut'
+
 const ProfileDropdown = ({ user }: { user: User }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const closeDropdown = (event: any) => {
@@ -61,18 +64,21 @@ const ProfileDropdown = ({ user }: { user: User }) => {
     },
   }
 
+  const handleSignOut = () => {
+    signOut()
+    router.push('/')
+  }
+
   return (
     <div className='profile-dropdown relative inline-block text-left'>
       <div onClick={handleImageClick}>
-        {user?.imageUrl && (
-          <Image
-            src={user?.imageUrl as string}
-            alt='Profile'
-            width={40}
-            height={40}
-            className='cursor-pointer rounded-full'
-          />
-        )}
+        <Image
+          src={user?.imageUrl as string}
+          alt='Profile'
+          width={40}
+          height={40}
+          className='cursor-pointer rounded-full'
+        />
       </div>
 
       <AnimatePresence>
@@ -128,10 +134,11 @@ const ProfileDropdown = ({ user }: { user: User }) => {
                 }}>
                 <GoSignOut size={24} />
                 <button
-                  // onClick={() => signOut()}
+                  type='button'
+                  onClick={handleSignOut}
                   className='text-md block w-full rounded-sm px-2 text-left '
                   role='menuitem'>
-                  sign-out
+                  sign out
                 </button>
               </div>
             </div>

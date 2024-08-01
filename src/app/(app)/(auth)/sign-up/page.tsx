@@ -1,7 +1,8 @@
-import SignUpForm from '@/components/marketing/auth/SignInForm'
+import SignUpForm from '@/components/common/auth/SignUpForm'
+import withNoAuth from '@/utils/withNoAuth'
 
 const SignUp = () => {
   return <SignUpForm />
 }
 
-export default SignUp
+export default withNoAuth(SignUp)

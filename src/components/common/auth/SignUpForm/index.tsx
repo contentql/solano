@@ -69,9 +69,15 @@ const SignUpForm = () => {
       </div>
       <div className='flex w-full items-center justify-center bg-[#26304e] lg:w-1/2'>
         <div className='w-full max-w-md p-6'>
-          {isSignUpError ? <p color='red'>{signUpError?.message}</p> : null}
+          {isSignUpError ? (
+            <p style={{ color: 'red', textAlign: 'center' }}>
+              {signUpError?.message}
+            </p>
+          ) : null}
           {isSignUpSuccess ? (
-            <p color='green'>Account created! Redirecting...</p>
+            <p style={{ color: 'green', textAlign: 'center' }}>
+              Account created! Redirecting...
+            </p>
           ) : null}
           <h1 className='mb-6 text-center text-3xl font-semibold text-white'>
             Sign Up

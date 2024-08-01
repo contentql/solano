@@ -166,7 +166,9 @@ function NavbarMenu({
           </Menu>
         </div>
         <div className='flex gap-3'>
-          {user == null ? (
+          {user ? (
+            <ProfileDropdown user={user} />
+          ) : (
             <>
               <a
                 className='hidden cursor-pointer items-center justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold capitalize text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all duration-150 hover:bg-gray-50 sm:inline-flex'
@@ -179,8 +181,6 @@ function NavbarMenu({
                 {data?.header?.secondary_button_text}
               </a>
             </>
-          ) : (
-            <ProfileDropdown user={user} />
           )}
 
           <button
