@@ -44,7 +44,7 @@ export const SwipeCarousel = ({
     }, AUTO_DELAY)
 
     return () => clearInterval(intervalRef)
-  }, [])
+  }, [dragX, blogsData?.length])
 
   const onDragEnd = () => {
     const x = dragX.get()
