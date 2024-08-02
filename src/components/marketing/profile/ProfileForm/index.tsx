@@ -110,7 +110,7 @@ const ProfileForm = ({ user }: { user: User }) => {
                 id='name'
                 name='name'
                 placeholder='John'
-                value={formData.name || ''}
+                value={user.name || ''}
                 onChange={handleOnChange}
                 className='mt-1 w-full rounded-md bg-[#1e2846] p-2 text-white transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
               />
@@ -143,7 +143,7 @@ const ProfileForm = ({ user }: { user: User }) => {
                 id='bio'
                 name='bio'
                 placeholder=''
-                value={formData?.bio || ''}
+                value={user?.bio || ''}
                 onChange={handleOnChange}
                 className='mt-1 w-full rounded-md bg-[#1e2846] p-2 text-white transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
                 rows={4} // You can adjust the number of rows as needed

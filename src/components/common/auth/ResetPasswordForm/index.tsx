@@ -76,7 +76,9 @@ export function GenerateResetTokenForm() {
           <div className='mt-10'>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className='grid gap-y-4'>
-                {isGeneratePasswordSuccess && <p color='green'></p>}
+                {isGeneratePasswordSuccess && (
+                  <p style={{ color: 'green' }}></p>
+                )}
                 <div>
                   <label
                     htmlFor='email'
@@ -139,6 +141,7 @@ export function ResetPasswordForm({ token }: { token: string }) {
   } = trpc.auth.resetPassword.useMutation({
     onSuccess: () => {
       toast.success('Changed your password!')
+      router.push('/sign-in')
     },
     onError: () => {
       toast.error('Not able to change your password, try again!')
@@ -168,7 +171,9 @@ export function ResetPasswordForm({ token }: { token: string }) {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className='grid gap-y-4'>
                 {isResetPasswordSuccess && (
-                  <p color='green'>Successfully changed the password!</p>
+                  <p style={{ color: 'green' }}>
+                    Successfully changed the password!
+                  </p>
                 )}
                 <div>
                   <label
