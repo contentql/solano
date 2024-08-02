@@ -1,14 +1,16 @@
-import ProfileView from '@/components/marketing/profile'
-import { getCurrentUser } from '@/lib/authjs-payload-adapter/payload'
+import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
+
+import ProfileView from '@/components/marketing/profile'
+import { getCurrentUser } from '@/utils/getCurrentUser'
+
 const ProfilePage = async () => {
-  const user = await getCurrentUser()
+  const headersList = headers()
+  const user = await getCurrentUser(headersList)
 
   if (!user) return redirect('/sign-in')
 
-  return (
-    <ProfileView user={user} />
-  )
+  return <ProfileView initialUser={user} />
 }
 
 export default ProfilePage

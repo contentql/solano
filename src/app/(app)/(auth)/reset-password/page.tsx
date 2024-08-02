@@ -3,7 +3,7 @@ import { unstable_noStore as noStore } from 'next/cache'
 import {
   GenerateResetTokenForm,
   ResetPasswordForm,
-} from '@/components/auth/ResetPasswordForm'
+} from '@/components/common/auth/ResetPasswordForm'
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0

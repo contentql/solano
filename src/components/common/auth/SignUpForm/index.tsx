@@ -3,36 +3,21 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-import { signUp } from './actions'
+import { trpc } from '@/trpc/client'
 
-export const signUpFormSchema = z.object({
-  firstName: z.string().min(1, { message: 'First name is required' }),
-  lastName: z.string().min(1, { message: 'Last name is required' }),
-  email: z
-    .string()
-    .min(1, { message: 'E-mail is required' })
-    .email({ message: 'E-mail is invalid' }),
-  password: z
-    .string()
-    .min(1, { message: 'Password is required' })
-    .min(6, { message: 'Password must be at least 6 characters long' }),
-})
+import { signUpFormSchema } from './validation'
 
 export type SignUpFormData = z.infer<typeof signUpFormSchema>
 
 const SignUpForm = () => {
-  const [isPending, startTransition] = useTransition()
-  const [backendSignUpResponse, setBackendSignUpResponse] = useState<any>(null)
-
   const router = useRouter()
 
   const form = useForm<SignUpFormData>({
     resolver: zodResolver(signUpFormSchema),
-    mode: 'onBlur',
+    mode: 'all',
     defaultValues: {
       firstName: '',
       lastName: '',
@@ -45,30 +30,29 @@ const SignUpForm = () => {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
+    reset,
   } = form
 
-  const [firstName, lastName, email, password] = watch([
-    'firstName',
-    'lastName',
-    'email',
-    'password',
-  ])
-
-  useEffect(() => {
-    if (backendSignUpResponse) {
-      setBackendSignUpResponse(null)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [firstName, lastName, email, password])
+  const {
+    mutate: signUpMutation,
+    isPending: isSignUpPending,
+    isError: isSignUpError,
+    error: signUpError,
+    isSuccess: isSignUpSuccess,
+  } = trpc.auth.signUp.useMutation({
+    onSuccess: () => {
+      reset()
+      router.push('/profile')
+    },
+  })
 
   const onSubmit = async (data: SignUpFormData) => {
-    startTransition(async () => {
-      const result = await signUp({ ...data, redirectTo: '/profile' })
-      setBackendSignUpResponse(result)
-      if (result.success) {
-        router.push('/profile')
-      }
+    const randomNum = Math.floor(Math.random() * (24 - 1 + 1)) + 1
+    const imageUrl = `/images/avatar/avatar_${randomNum}.jpg`
+
+    signUpMutation({
+      ...data,
+      imageUrl,
     })
   }
 
@@ -85,13 +69,15 @@ const SignUpForm = () => {
       </div>
       <div className='flex w-full items-center justify-center bg-[#26304e] lg:w-1/2'>
         <div className='w-full max-w-md p-6'>
-          {backendSignUpResponse &&
-          !backendSignUpResponse?.success &&
-          backendSignUpResponse?.error ? (
-            <p color='red'>{backendSignUpResponse.error.message}</p>
+          {isSignUpError ? (
+            <p style={{ color: 'red', textAlign: 'center' }}>
+              {signUpError?.message}
+            </p>
           ) : null}
-          {backendSignUpResponse && backendSignUpResponse?.success ? (
-            <p color='green'>Account created! Redirecting...</p>
+          {isSignUpSuccess ? (
+            <p style={{ color: 'green', textAlign: 'center' }}>
+              Account created! Redirecting...
+            </p>
           ) : null}
           <h1 className='mb-6 text-center text-3xl font-semibold text-white'>
             Sign Up
@@ -158,7 +144,7 @@ const SignUpForm = () => {
                 id='firstName'
                 name='firstName'
                 placeholder='John'
-                className='mt-1 w-full rounded-md bg-gray-600 p-2 transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
+                className='mt-1 w-full rounded-md bg-gray-600 p-2 text-white transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
               />
               {errors?.firstName && (
                 <p className='p-2 text-sm text-red-500'>
@@ -178,7 +164,7 @@ const SignUpForm = () => {
                 id='lastName'
                 name='lastName'
                 placeholder='Doe'
-                className='mt-1 w-full rounded-md bg-gray-600 p-2 transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
+                className='mt-1 w-full rounded-md bg-gray-600 p-2 text-white transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
               />
               {errors?.lastName && (
                 <p className='p-2 text-sm text-red-500'>
@@ -198,7 +184,7 @@ const SignUpForm = () => {
                 id='email'
                 name='email'
                 placeholder='john.doe@example.com'
-                className='mt-1 w-full rounded-md bg-gray-600 p-2 transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
+                className='mt-1 w-full rounded-md bg-gray-600 p-2 text-white transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
               />
               {errors?.email && (
                 <p className='p-2 text-sm text-red-500'>
@@ -218,7 +204,7 @@ const SignUpForm = () => {
                 id='password'
                 name='password'
                 placeholder='● ● ● ● ● ● ● ● ●'
-                className='focus:ring-offset- mt-1 w-full rounded-md bg-gray-600 p-2 transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300'
+                className='mt-1 w-full rounded-md bg-gray-600 p-2 text-white transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
               />
               {errors?.password && (
                 <p className='p-2 text-sm text-red-500'>
@@ -230,8 +216,8 @@ const SignUpForm = () => {
               <button
                 type='submit'
                 className='w-full rounded-md border-[1px] border-indigo-600 bg-indigo-600 p-2 text-white transition-all duration-500 hover:bg-indigo-700 focus:outline-none focus:ring-1 focus:ring-gray-200 focus:ring-offset-1 disabled:cursor-not-allowed disabled:bg-opacity-50'
-                disabled={isPending}>
-                {isPending ? 'Creating account...' : 'Sign Up'}
+                disabled={isSignUpPending}>
+                {isSignUpPending ? 'Creating account...' : 'Sign Up'}
               </button>
             </div>
           </form>

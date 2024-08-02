@@ -2,17 +2,29 @@
 
 import type { User } from '@payload-types'
 import { useState } from 'react'
-import { useFormState } from 'react-dom'
 import { toast } from 'react-toastify'
+import { z } from 'zod'
 
 import { trpc } from '@/trpc/client'
 
 import DeleteAccountSection from './DeleteAccountSection'
 import Profile from './Profile'
-import { updateUser } from './actions'
+
+const ProfileFormSchema = z.object({
+  name: z.string().optional().nullable(),
+  bio: z.string().optional().nullable(),
+  password: z.string().optional().nullable(),
+  confirmPassword: z.string().optional().nullable(),
+})
+type ProfileFormDataType = z.infer<typeof ProfileFormSchema>
 
 const ProfileForm = ({ user }: { user: User }) => {
-  const [formData, setFormData] = useState<User>(user)
+  const [formData, setFormData] = useState<ProfileFormDataType>({
+    name: user?.name,
+    bio: user?.bio,
+    password: '',
+    confirmPassword: '',
+  })
   const trpcUtils = trpc.useUtils()
 
   const handleOnChange = (
@@ -21,18 +33,35 @@ const ProfileForm = ({ user }: { user: User }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
-  const [response, updateUserAction, isPending] = useFormState(async () => {
-    const response = await updateUser(formData)
-    if (!response || !response.user) return null
-    toast.success('Profile updated successfully!')
-    trpcUtils.user.getUser.invalidate()
-    // toast.success('Profile updated successfully!', {
-    //   duration: 2000,
-    //   position: 'top-center',
-    //   dismissible: true,
-    // })
-    return response
-  }, null)
+  const { mutate: updateUserMutation, isPending: isUpdateUserPending } =
+    trpc.user.updateUser.useMutation({
+      onSuccess: () => {
+        toast.success('Profile updated successfully')
+        trpcUtils.user.getUser.invalidate()
+      },
+      onError() {
+        return null
+      },
+    })
+
+  const handleUserUpdateForm = (e: any) => {
+    e.preventDefault()
+    const sanitizedData = Object.fromEntries(
+      Object.entries(formData).filter(([key, value]) => Boolean(value)),
+    )
+
+    if (
+      sanitizedData.password &&
+      sanitizedData.password !== sanitizedData.confirmPassword
+    ) {
+      toast.error('Passwords do not match!')
+      return
+    }
+
+    updateUserMutation({
+      ...sanitizedData,
+    })
+  }
 
   return (
     <div className='p-2 md:p-4'>
@@ -68,7 +97,7 @@ const ProfileForm = ({ user }: { user: User }) => {
           </div>
 
           <form
-            action={updateUserAction}
+            onSubmit={handleUserUpdateForm}
             className='mt-8 items-center text-[#202142] sm:mt-14'>
             <div className='mb-4 sm:mb-6'>
               <label
@@ -98,7 +127,7 @@ const ProfileForm = ({ user }: { user: User }) => {
                 id='email'
                 name='email'
                 placeholder='john.doe@example.com'
-                value={formData.email}
+                value={user?.email}
                 disabled
                 className='mt-1 w-full rounded-md bg-[#1e2846] p-2 text-gray-400 transition-colors duration-300 focus:border-gray-200 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
               />
@@ -159,7 +188,7 @@ const ProfileForm = ({ user }: { user: User }) => {
               <button
                 type='submit'
                 className='w-full rounded-lg  bg-indigo-600 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-indigo-800 focus:outline-none focus:ring-4 focus:ring-indigo-300 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800 sm:w-auto'>
-                {isPending ? 'Updating...' : 'Update Profile'}
+                {isUpdateUserPending ? 'Updating...' : 'Update Profile'}
               </button>
             </div>
           </form>

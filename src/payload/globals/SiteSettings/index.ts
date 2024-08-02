@@ -1,5 +1,5 @@
 import { revalidateTag } from 'next/cache'
-import type { Field, GlobalConfig } from 'payload/types'
+import type { Field, GlobalConfig } from 'payload'
 
 import { COLLECTION_SLUG_PAGE } from '@/payload/collections/constants'
 import iconField from '@/payload/fields/icon'

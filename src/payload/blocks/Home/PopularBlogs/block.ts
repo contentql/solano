@@ -1,4 +1,4 @@
-import { Block } from 'payload/types'
+import { Block } from 'payload'
 
 export const Popular_Blogs_Block: Block = {
   slug: 'PopularBlogs',

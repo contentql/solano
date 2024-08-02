@@ -2,11 +2,13 @@
 
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
-import { useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
-import { generateResetPasswordToken, resetPassword } from './actions'
+import { trpc } from '@/trpc/client'
+
+// import { generateResetPasswordToken, resetPassword } from './actions'
 
 const generateTokenSchema = z.object({
   email: z.string().email({ message: 'Invalid email address' }),
@@ -31,23 +33,25 @@ export function GenerateResetTokenForm() {
     handleSubmit,
     formState: { errors },
   } = form
-  const [message, setMessage] = useState<string | null>(null)
-  const [isSubmitting, startTransition] = useTransition()
+
+  const {
+    mutate: generateResetPasswordTokenMutation,
+    isPending: isGeneratePasswordPending,
+    isError: isGeneratePasswordError,
+    error: generatePasswordError,
+    isSuccess: isGeneratePasswordSuccess,
+  } = trpc.auth.forgotPassword.useMutation({
+    onSuccess: () => {
+      toast.success('Please check you mail!')
+    },
+    onError: () => {
+      toast.error('Error sending you mail, try again!')
+    },
+  })
 
   const onSubmit = async (data: z.infer<typeof generateTokenSchema>) => {
-    startTransition(async () => {
-      const response = await generateResetPasswordToken(data)
-      if (!response.success) {
-        form.setError('email', {
-          type: 'manual',
-          message: response.error.message,
-        })
-        setMessage(null)
-      } else {
-        setMessage(
-          "Reset link sent to your email. Don't forget to check your spam inbox!",
-        )
-      }
+    generateResetPasswordTokenMutation({
+      ...data,
     })
   }
 
@@ -63,8 +67,7 @@ export function GenerateResetTokenForm() {
               Remember your password?
               <a
                 className='pl-1 font-medium text-blue-600 decoration-2 hover:underline'
-                href='/sign-in'
-              >
+                href='/sign-in'>
                 SignIn here
               </a>
             </p>
@@ -73,12 +76,11 @@ export function GenerateResetTokenForm() {
           <div className='mt-10'>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className='grid gap-y-4'>
-                {message && <p color='green'>{message}</p>}
+                {isGeneratePasswordSuccess && <p color='green'></p>}
                 <div>
                   <label
                     htmlFor='email'
-                    className='mb-2 ml-1 block text-sm font-bold dark:text-white'
-                  >
+                    className='mb-2 ml-1 block text-sm font-bold dark:text-white'>
                     Email address
                   </label>
                   <div className='relative'>
@@ -94,18 +96,16 @@ export function GenerateResetTokenForm() {
                   {errors.email && (
                     <p
                       className='mt-2 hidden text-xs text-red-600'
-                      id='email-error'
-                    >
+                      id='email-error'>
                       {errors.email.message}
                     </p>
                   )}
                 </div>
                 <button
                   type='submit'
-                  disabled={isSubmitting}
-                  className='mt-3 inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-opacity-50 dark:focus:ring-offset-gray-800'
-                >
-                  {isSubmitting ? 'Sending...' : 'Send Reset Link'}
+                  disabled={isGeneratePasswordPending}
+                  className='mt-3 inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-opacity-50 dark:focus:ring-offset-gray-800'>
+                  {isGeneratePasswordPending ? 'Sending...' : 'Send Reset Link'}
                 </button>
               </div>
             </form>
@@ -129,24 +129,25 @@ export function ResetPasswordForm({ token }: { token: string }) {
     handleSubmit,
     formState: { errors },
   } = form
-  const [message, setMessage] = useState<string | null>(null)
-  const [isSubmitting, startTransition] = useTransition()
+
+  const {
+    mutate: resetPasswordMutation,
+    isPending: isResetPasswordPending,
+    isError: isResetPasswordError,
+    error: resetPasswordError,
+    isSuccess: isResetPasswordSuccess,
+  } = trpc.auth.resetPassword.useMutation({
+    onSuccess: () => {
+      toast.success('Changed your password!')
+    },
+    onError: () => {
+      toast.error('Not able to change your password, try again!')
+    },
+  })
 
   const onSubmit = async (data: z.infer<typeof resetPasswordSchema>) => {
-    startTransition(async () => {
-      const result = await resetPassword({ ...data, redirectTo: '/profile' })
-      if (!result.success) {
-        form.setError('password', {
-          type: 'manual',
-          message:
-            result?.error?.message ||
-            'Failed to reset password. Please try again.',
-        })
-        setMessage(null)
-      } else {
-        setMessage('Password reset successfully. Redirecting...')
-        setTimeout(() => router.push('/profile'), 2000)
-      }
+    resetPasswordMutation({
+      ...data,
     })
   }
 
@@ -166,13 +167,14 @@ export function ResetPasswordForm({ token }: { token: string }) {
           <div className='mt-10'>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className='grid gap-y-4'>
-                {message && <p color='green'>{message}</p>}
+                {isResetPasswordSuccess && (
+                  <p color='green'>Successfully changed the password!</p>
+                )}
                 <div>
                   <label
                     htmlFor='password'
-                    className='mb-2 ml-1 block text-sm font-bold dark:text-white'
-                  >
-                    Email address
+                    className='mb-2 ml-1 block text-sm font-bold dark:text-white'>
+                    New Password
                   </label>
                   <div className='relative'>
                     <input
@@ -187,18 +189,16 @@ export function ResetPasswordForm({ token }: { token: string }) {
                   {errors.password && (
                     <p
                       className='mt-2 hidden text-xs text-red-600'
-                      id='email-error'
-                    >
+                      id='email-error'>
                       {errors.password.message}
                     </p>
                   )}
                 </div>
                 <button
                   type='submit'
-                  disabled={isSubmitting}
-                  className='mt-3 inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-opacity-50 dark:focus:ring-offset-gray-800'
-                >
-                  {isSubmitting ? 'Processing...' : 'Reset Password'}
+                  disabled={isResetPasswordPending}
+                  className='mt-3 inline-flex items-center justify-center gap-2 rounded-md border border-transparent bg-blue-500 px-4 py-3 text-sm font-semibold text-white transition-all hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-opacity-50 dark:focus:ring-offset-gray-800'>
+                  {isResetPasswordPending ? 'Processing...' : 'Reset Password'}
                 </button>
               </div>
             </form>

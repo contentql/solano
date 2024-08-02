@@ -7,6 +7,9 @@
  */
 
 export interface Config {
+  auth: {
+    users: UserAuthOperations;
+  };
   collections: {
     users: User;
     media: Media;
@@ -17,12 +20,31 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
+  db: {
+    defaultIDType: string;
+  };
   globals: {
     'site-settings': SiteSetting;
   };
   locale: null;
   user: User & {
     collection: 'users';
+  };
+}
+export interface UserAuthOperations {
+  forgotPassword: {
+    email: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
   };
 }
 /**
@@ -43,21 +65,6 @@ export interface User {
       }[]
     | null;
   emailVerified?: string | null;
-  accounts?:
-    | {
-        provider?: string | null;
-        providerAccountId?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  verificationTokens?:
-    | {
-        identifier?: string | null;
-        token?: string | null;
-        expires?: string | null;
-        id?: string | null;
-      }[]
-    | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -5819,6 +5826,13 @@ export interface SiteSetting {
   };
   updatedAt?: string | null;
   createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "auth".
+ */
+export interface Auth {
+  [k: string]: unknown;
 }
 
 

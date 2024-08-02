@@ -8,11 +8,9 @@ import { toast } from 'react-toastify'
 import { trpc } from '@/trpc/client'
 import { listOfIcons } from '@/utils/getSocialMediaIcon'
 
-const Profile = ({ initialUser }: { initialUser: User }) => {
+const Profile = ({ initialUser }: { initialUser: User | undefined }) => {
   const [isSpinning, setIsSpinning] = useState(false)
-  const { data: user } = trpc.user.getUser.useQuery(undefined, {
-    initialData: initialUser,
-  })
+  const { data: user } = trpc.user.getUser.useQuery()
   const trpcUtils = trpc.useUtils()
 
   function capitalizeWords(words: string) {

@@ -5,10 +5,12 @@ import { pageRouter } from '@/trpc/routers/page'
 import { siteSettingsRouter } from '@/trpc/routers/site-settings'
 import { tagRouter } from '@/trpc/routers/tag'
 
+import { authRouter } from './auth'
 import { seedRouter } from './seed'
 import { userRouter } from './user/user-router'
 
 export const appRouter = router({
+  auth: authRouter,
   page: pageRouter,
   blog: blogRouter,
   siteSettings: siteSettingsRouter,

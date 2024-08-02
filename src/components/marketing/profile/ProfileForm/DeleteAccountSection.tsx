@@ -1,21 +1,46 @@
-import { useEffect, useState } from 'react'
-import { useFormState } from 'react-dom'
+'use client'
 
-import { deleteUser } from './actions'
+import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { toast } from 'react-toastify'
+
+import { trpc } from '@/trpc/client'
 
 export default function DeleteAccountSection() {
   const [open, setOpen] = useState(false)
 
   const [isAllowedToDelete, setIsAllowedToDelete] = useState(false)
   const [confirmation, setConfirmation] = useState('')
-  const [state, deleteUserAction, isPending] = useFormState(deleteUser, null)
+  const router = useRouter()
+
+  const {
+    mutate: deleteUserMutation,
+    isPending: isSignUpPending,
+    isError: isSignUpError,
+    error: signUpError,
+    isSuccess: isSignUpSuccess,
+  } = trpc.user.deleteUser.useMutation({
+    onSuccess: () => {
+      toast.success('Account deleted successfully')
+      router.push('/sign-up')
+    },
+    onError: () => {
+      toast.error('Unable to delete the account, try again!')
+    },
+  })
+
+  const handleDeleteUser = async (e: any) => {
+    e.preventDefault()
+
+    deleteUserMutation()
+  }
 
   useEffect(() => {
-    if (isPending === false && open === true) {
+    if (isSignUpPending === false && open === true) {
       setOpen(false)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isPending])
+  }, [isSignUpPending])
 
   return (
     <div className='hover:shodow-lg flex flex-col rounded-2xl bg-[#e779c11a] p-8 shadow-md'>
@@ -122,12 +147,12 @@ export default function DeleteAccountSection() {
                   </div>
                 </div>
                 <div className='bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6'>
-                  <form action={deleteUserAction}>
+                  <form onSubmit={handleDeleteUser}>
                     <button
                       type='submit'
                       disabled={!isAllowedToDelete}
                       className='inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 disabled:cursor-not-allowed disabled:bg-opacity-50 sm:ml-3 sm:w-auto'>
-                      {isPending ? 'Deleting...' : 'Delete Account'}
+                      {isSignUpPending ? 'Deleting...' : 'Delete Account'}
                     </button>
                   </form>
                   <button

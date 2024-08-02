@@ -4,11 +4,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { type ComponentProps, useEffect, useState, useTransition } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'react-toastify'
 import { z } from 'zod'
 
-import { signInWithCredentials } from './actions'
+import { trpc } from '@/trpc/client'
 
 export const loginFormSchema = z.object({
   email: z
@@ -21,21 +21,8 @@ export const loginFormSchema = z.object({
     .min(6, { message: 'Password must be at least 6 characters long' }),
 })
 
-const Separator = ({ children }: ComponentProps<'div'>) => (
-  <div className='relative isolate my-3 flex items-center justify-center'>
-    <p className='bg-white p-2 text-sm font-medium uppercase text-zinc-500 dark:bg-zinc-900'>
-      {children}
-    </p>
-    <hr className='absolute z-[-1] w-full border-0 bg-zinc-200 p-px dark:bg-zinc-600' />
-  </div>
-)
-
 const SignInForm = () => {
   const router = useRouter()
-  const [isPending, startTransition] = useTransition()
-  const [backendLoginResponse, setBackendLoginResponse] = useState<Awaited<
-    ReturnType<typeof signInWithCredentials>
-  > | null>(null)
 
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -55,24 +42,25 @@ const SignInForm = () => {
 
   const [email, password] = watch(['email', 'password'])
 
-  useEffect(() => {
-    if (backendLoginResponse && backendLoginResponse.success === false) {
-      setBackendLoginResponse(null)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [email, password])
+  const {
+    mutate: signInMutation,
+    isPending: isSignInPending,
+    isError: isSignInError,
+    error: signInError,
+    isSuccess: isSignInSuccess,
+  } = trpc.auth.signIn.useMutation({
+    onSuccess: () => {
+      toast.success('logged in successfully')
+      router.push('/')
+    },
+    onError: () => {
+      toast.error('Unable to login, try again!')
+    },
+  })
 
   const onSubmit = (data: z.infer<typeof loginFormSchema>) => {
-    startTransition(() => {
-      signInWithCredentials({ ...data, redirectTo: '/' }).then(result => {
-        if (!result) return
-        if (result.success === true) {
-          router.push('/')
-        }
-        if ('error' in result) {
-          setBackendLoginResponse(result)
-        }
-      })
+    signInMutation({
+      ...data,
     })
   }
 
@@ -89,14 +77,15 @@ const SignInForm = () => {
       </div>
       <div className='flex w-full items-center justify-center bg-[#26304e] lg:w-1/2'>
         <div className='w-full max-w-md p-6'>
-          {backendLoginResponse && 'error' in backendLoginResponse ? (
-            <p color='red'>
-              {backendLoginResponse?.error?.code === 'credentials' &&
-                'Sign in failed. Check the details you provided are correct.'}
+          {isSignInError ? (
+            <p style={{ color: 'red', textAlign: 'center' }}>
+              {'Sign in failed. Check the details you provided are correct.'}
             </p>
           ) : null}
-          {backendLoginResponse && backendLoginResponse?.success === true ? (
-            <p color='green'>Successfully logged in! Redirecting...</p>
+          {isSignInSuccess ? (
+            <p style={{ color: 'green', textAlign: 'center' }}>
+              Successfully logged in! Redirecting...
+            </p>
           ) : null}
           <h1 className='mb-6 text-center text-3xl font-semibold text-white'>
             Sign In
@@ -165,7 +154,7 @@ const SignInForm = () => {
                 id='email'
                 name='email'
                 placeholder='john.doe@example.com'
-                className='mt-1 w-full rounded-md bg-gray-600 p-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
+                className='mt-1 w-full rounded-md bg-gray-600 p-2 text-white transition-colors duration-300 focus:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
               />
               {errors?.email && (
                 <p className='p-2 text-sm text-red-500'>
@@ -185,7 +174,7 @@ const SignInForm = () => {
                 id='password'
                 name='password'
                 placeholder='● ● ● ● ● ● ● ● ●'
-                className='mt-1 w-full rounded-md bg-gray-600 p-2 transition-colors duration-300 focus:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
+                className='mt-1 w-full rounded-md bg-gray-600 p-2 text-white transition-colors duration-300 focus:border-gray-400 focus:outline-none focus:ring-1 focus:ring-gray-300 focus:ring-offset-1'
               />
               {errors?.password && (
                 <p className='p-2 text-sm text-red-500'>
@@ -203,8 +192,8 @@ const SignInForm = () => {
               <button
                 type='submit'
                 className='w-full rounded-md border-[1px] border-indigo-600 bg-indigo-600 p-2 text-white transition-all duration-500 hover:bg-indigo-700  focus:outline-none focus:ring-1 focus:ring-gray-200 focus:ring-offset-1 disabled:cursor-not-allowed disabled:bg-opacity-50'
-                disabled={isPending}>
-                {isPending ? 'Signing in...' : 'Sign In'}
+                disabled={isSignInPending}>
+                {isSignInPending ? 'Signing in...' : 'Sign In'}
               </button>
             </div>
           </form>
